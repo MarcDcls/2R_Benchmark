@@ -1,0 +1,1154 @@
+<robot name="2R_arm">
+<link name="base">
+<visual>
+<origin xyz="0 -3.6696046864827199809e-18 0.054800000000000001488" rpy="1.570796326794896558 -0 0" />
+<geometry>
+<mesh filename="package:///base.stl"/>
+</geometry>
+<material name="base_material">
+<color rgba="0.91764705882352937127 0.91764705882352937127 0.91764705882352937127 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 -3.6696046864827199809e-18 0.054800000000000001488" rpy="1.570796326794896558 -0 0" />
+<geometry>
+<mesh filename="package:///base.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.01100000000000000977 0.01352999999999999689 0.0070000000000000062172" rpy="-1.570796326794896558 -0 1.570796326794896558" />
+<geometry>
+<mesh filename="package:///ecrou_2.5.stl"/>
+</geometry>
+<material name="ecrou_2.5_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.01100000000000000977 0.01352999999999999689 0.0070000000000000062172" rpy="-1.570796326794896558 -0 1.570796326794896558" />
+<geometry>
+<mesh filename="package:///ecrou_2.5.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.01730000000000003757 0.030970000000000007939 0.014800000000000007594" rpy="1.570796326794896558 -0 -1.570796326794896558" />
+<geometry>
+<mesh filename="package:///m2.5x20__list_khwhpz53lblddb__20.stl"/>
+</geometry>
+<material name="m2.5x20__list_khwhpz53lblddb__20_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.01730000000000003757 0.030970000000000007939 0.014800000000000007594" rpy="1.570796326794896558 -0 -1.570796326794896558" />
+<geometry>
+<mesh filename="package:///m2.5x20__list_khwhpz53lblddb__20.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.01100000000000000977 0.01352999999999999689 0.0070000000000000062172" rpy="-1.570796326794896558 -0 1.570796326794896558" />
+<geometry>
+<mesh filename="package:///ecrou_2.5.stl"/>
+</geometry>
+<material name="ecrou_2.5_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.01100000000000000977 0.01352999999999999689 0.0070000000000000062172" rpy="-1.570796326794896558 -0 1.570796326794896558" />
+<geometry>
+<mesh filename="package:///ecrou_2.5.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.017299999999999995937 0.01352999999999999689 0.014800000000000007594" rpy="3.141592653589793116 -0 1.570796326794896558" />
+<geometry>
+<mesh filename="package:///ecrou_2.5.stl"/>
+</geometry>
+<material name="ecrou_2.5_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.017299999999999995937 0.01352999999999999689 0.014800000000000007594" rpy="3.141592653589793116 -0 1.570796326794896558" />
+<geometry>
+<mesh filename="package:///ecrou_2.5.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0 2.9999999999984699957e-05 0.054800000000000001488" rpy="1.570796326794896558 -0 0" />
+<geometry>
+<mesh filename="package:///dc08_m01_dummy.stl"/>
+</geometry>
+<material name="dc08_m01_dummy_material">
+<color rgba="0.49803921568627451677 0.49803921568627451677 0.49803921568627451677 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 2.9999999999984699957e-05 0.054800000000000001488" rpy="1.570796326794896558 -0 0" />
+<geometry>
+<mesh filename="package:///dc08_m01_dummy.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.01100000000000000977 -0.03097000000000000447 0.0070000000000000062172" rpy="-1.570796326794896558 -0 1.570796326794896558" />
+<geometry>
+<mesh filename="package:///m2.5x20__list_khwhpz53lblddb__20.stl"/>
+</geometry>
+<material name="m2.5x20__list_khwhpz53lblddb__20_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.01100000000000000977 -0.03097000000000000447 0.0070000000000000062172" rpy="-1.570796326794896558 -0 1.570796326794896558" />
+<geometry>
+<mesh filename="package:///m2.5x20__list_khwhpz53lblddb__20.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.01730000000000003757 0.01352999999999999689 0.014800000000000007594" rpy="3.141592653589793116 -0 1.570796326794896558" />
+<geometry>
+<mesh filename="package:///ecrou_2.5.stl"/>
+</geometry>
+<material name="ecrou_2.5_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.01730000000000003757 0.01352999999999999689 0.014800000000000007594" rpy="3.141592653589793116 -0 1.570796326794896558" />
+<geometry>
+<mesh filename="package:///ecrou_2.5.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.01100000000000000977 0.030970000000000007939 0.0070000000000000062172" rpy="1.570796326794896558 -0 -1.570796326794896558" />
+<geometry>
+<mesh filename="package:///m2.5x20__list_khwhpz53lblddb__20.stl"/>
+</geometry>
+<material name="m2.5x20__list_khwhpz53lblddb__20_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.01100000000000000977 0.030970000000000007939 0.0070000000000000062172" rpy="1.570796326794896558 -0 -1.570796326794896558" />
+<geometry>
+<mesh filename="package:///m2.5x20__list_khwhpz53lblddb__20.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.01100000000000000977 0.030970000000000007939 0.0070000000000000062172" rpy="1.570796326794896558 -0 -1.570796326794896558" />
+<geometry>
+<mesh filename="package:///m2.5x20__list_khwhpz53lblddb__20.stl"/>
+</geometry>
+<material name="m2.5x20__list_khwhpz53lblddb__20_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.01100000000000000977 0.030970000000000007939 0.0070000000000000062172" rpy="1.570796326794896558 -0 -1.570796326794896558" />
+<geometry>
+<mesh filename="package:///m2.5x20__list_khwhpz53lblddb__20.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.01730000000000003757 -0.03097000000000000447 0.014800000000000007594" rpy="-1.570796326794896558 -0 1.570796326794896558" />
+<geometry>
+<mesh filename="package:///m2.5x20__list_khwhpz53lblddb__20.stl"/>
+</geometry>
+<material name="m2.5x20__list_khwhpz53lblddb__20_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.01730000000000003757 -0.03097000000000000447 0.014800000000000007594" rpy="-1.570796326794896558 -0 1.570796326794896558" />
+<geometry>
+<mesh filename="package:///m2.5x20__list_khwhpz53lblddb__20.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.017299999999999995937 -0.03097000000000000447 0.014800000000000007594" rpy="-1.570796326794896558 -0 1.570796326794896558" />
+<geometry>
+<mesh filename="package:///m2.5x20__list_khwhpz53lblddb__20.stl"/>
+</geometry>
+<material name="m2.5x20__list_khwhpz53lblddb__20_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.017299999999999995937 -0.03097000000000000447 0.014800000000000007594" rpy="-1.570796326794896558 -0 1.570796326794896558" />
+<geometry>
+<mesh filename="package:///m2.5x20__list_khwhpz53lblddb__20.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.01100000000000000977 -0.03097000000000000447 0.0070000000000000062172" rpy="-1.570796326794896558 -0 1.570796326794896558" />
+<geometry>
+<mesh filename="package:///m2.5x20__list_khwhpz53lblddb__20.stl"/>
+</geometry>
+<material name="m2.5x20__list_khwhpz53lblddb__20_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.01100000000000000977 -0.03097000000000000447 0.0070000000000000062172" rpy="-1.570796326794896558 -0 1.570796326794896558" />
+<geometry>
+<mesh filename="package:///m2.5x20__list_khwhpz53lblddb__20.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0 -3.6696046864827199809e-18 0.054800000000000001488" rpy="1.570796326794896558 -0 1.232595164407830946e-32" />
+<geometry>
+<mesh filename="package:///hn05-i101.stl"/>
+</geometry>
+<material name="hn05-i101_material">
+<color rgba="0.80000000000000004441 0.77647058823529413463 0.71372549019607844922 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 -3.6696046864827199809e-18 0.054800000000000001488" rpy="1.570796326794896558 -0 1.232595164407830946e-32" />
+<geometry>
+<mesh filename="package:///hn05-i101.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.017299999999999995937 0.030970000000000007939 0.014800000000000007594" rpy="1.570796326794896558 -0 -1.570796326794896558" />
+<geometry>
+<mesh filename="package:///m2.5x20__list_khwhpz53lblddb__20.stl"/>
+</geometry>
+<material name="m2.5x20__list_khwhpz53lblddb__20_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.017299999999999995937 0.030970000000000007939 0.014800000000000007594" rpy="1.570796326794896558 -0 -1.570796326794896558" />
+<geometry>
+<mesh filename="package:///m2.5x20__list_khwhpz53lblddb__20.stl"/>
+</geometry>
+</collision>
+<inertial>
+<origin xyz="2.7790051758642601364e-06 0.00023443552266707033726 0.032533522857541012641" rpy="0 0 0"/>
+<mass value="0.20669339694956750941" />
+<inertia ixx="0.00013602829580526421406" ixy="-3.8459091488379371223e-09"  ixz="-6.7587208272228628743e-09" iyy="0.00013296477332046791986" iyz="5.9116179763715180294e-07" izz="9.8047283044100654275e-05" />
+</inertial>
+</link>
+
+<link name="first_segment">
+<visual>
+<origin xyz="2.0472635308836317118e-31 -0.010999999999999524047 0.056939999999999969804" rpy="3.141592653589793116 1.5707963267948945596 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="2.0472635308836317118e-31 -0.010999999999999524047 0.056939999999999969804" rpy="3.141592653589793116 1.5707963267948945596 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.017299999999999999406 -0.040000000000000007772 0.056939999999999990621" rpy="3.141592653589793116 1.5707963267948945596 0" />
+<geometry>
+<mesh filename="package:///m2.5x25__list_khwhpz53lblddb__25.stl"/>
+</geometry>
+<material name="m2.5x25__list_khwhpz53lblddb__25_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.017299999999999999406 -0.040000000000000007772 0.056939999999999990621" rpy="3.141592653589793116 1.5707963267948945596 0" />
+<geometry>
+<mesh filename="package:///m2.5x25__list_khwhpz53lblddb__25.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.01100000000000000977 -1.3877787807814456755e-17 -0.004999999999999997502" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.01100000000000000977 -1.3877787807814456755e-17 -0.004999999999999997502" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-1.040834085586062224e-17 -0.080000000000000084932 0.026000000000000016154" rpy="-3.141592653589793116 6.6613381477509352982e-16 -9.180875922771856145e-30" />
+<geometry>
+<mesh filename="package:///dc08_m01_dummy.stl"/>
+</geometry>
+<material name="dc08_m01_dummy_material">
+<color rgba="0.49803921568627451677 0.49803921568627451677 0.49803921568627451677 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-1.040834085586062224e-17 -0.080000000000000084932 0.026000000000000016154" rpy="-3.141592653589793116 6.6613381477509352982e-16 -9.180875922771856145e-30" />
+<geometry>
+<mesh filename="package:///dc08_m01_dummy.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.007778174593052022967 -0.0077781745930520368448 -0.0049999999999999905631" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.007778174593052022967 -0.0077781745930520368448 -0.0049999999999999905631" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.010999999999999978545 -2.7755575615628913511e-17 0.056940000000000032254" rpy="-3.141592653589793116 1.570796326794896336 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.010999999999999978545 -2.7755575615628913511e-17 0.056940000000000032254" rpy="-3.141592653589793116 1.570796326794896336 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.017300000000000027162 -0.062000000000000110578 0.039500000000000028144" rpy="-1.570796326794896558 -1.5707963267948961139 0" />
+<geometry>
+<mesh filename="package:///ecrou_2.5.stl"/>
+</geometry>
+<material name="ecrou_2.5_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.017300000000000027162 -0.062000000000000110578 0.039500000000000028144" rpy="-1.570796326794896558 -1.5707963267948961139 0" />
+<geometry>
+<mesh filename="package:///ecrou_2.5.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.017300000000000013284 -0.062000000000000082823 0.0039999999999999931444" rpy="-1.7478540764356497864e-29 -1.5707963267948958919 0" />
+<geometry>
+<mesh filename="package:///m2.5x12__list_khwhpz53lblddb__12.stl"/>
+</geometry>
+<material name="m2.5x12__list_khwhpz53lblddb__12_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.017300000000000013284 -0.062000000000000082823 0.0039999999999999931444" rpy="-1.7478540764356497864e-29 -1.5707963267948958919 0" />
+<geometry>
+<mesh filename="package:///m2.5x12__list_khwhpz53lblddb__12.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0 0 0.025970000000000000029" rpy="3.141592653589793116 -9.0854355410624089163e-75 0" />
+<geometry>
+<mesh filename="package:///first_segment_half_2.stl"/>
+</geometry>
+<material name="first_segment_half_2_material">
+<color rgba="0.2313725490196078538 0.38039215686274507888 0.7058823529411765163 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0 0.025970000000000000029" rpy="3.141592653589793116 -9.0854355410624089163e-75 0" />
+<geometry>
+<mesh filename="package:///first_segment_half_2.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.017300000000000027162 -0.040000000000000063283 0.039500000000000028144" rpy="-1.570796326794896558 -1.5707963267948961139 0" />
+<geometry>
+<mesh filename="package:///ecrou_2.5.stl"/>
+</geometry>
+<material name="ecrou_2.5_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.017300000000000027162 -0.040000000000000063283 0.039500000000000028144" rpy="-1.570796326794896558 -1.5707963267948961139 0" />
+<geometry>
+<mesh filename="package:///ecrou_2.5.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.0077781745930519986809 -0.0077781745930520507226 0.056940000000000025315" rpy="-3.141592653589793116 1.570796326794896336 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.0077781745930519986809 -0.0077781745930520507226 0.056940000000000025315" rpy="-3.141592653589793116 1.570796326794896336 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-8.2814987608651141681e-33 0.010999999999999982014 -0.0049999999999999905631" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-8.2814987608651141681e-33 0.010999999999999982014 -0.0049999999999999905631" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0 -1.3877787807814456755e-17 0.025970000000000000029" rpy="3.141592653589793116 -9.0854355410624089163e-75 0" />
+<geometry>
+<mesh filename="package:///first_segment_half_1.stl"/>
+</geometry>
+<material name="first_segment_half_1_material">
+<color rgba="0.2313725490196078538 0.38039215686274507888 0.7058823529411765163 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 -1.3877787807814456755e-17 0.025970000000000000029" rpy="3.141592653589793116 -9.0854355410624089163e-75 0" />
+<geometry>
+<mesh filename="package:///first_segment_half_1.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.0077781745930516899001 -0.0077781745930516899001 0.056939999999999969804" rpy="3.141592653589793116 1.5707963267948945596 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.0077781745930516899001 -0.0077781745930516899001 0.056939999999999969804" rpy="3.141592653589793116 1.5707963267948945596 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="3.8133412898867269891e-32 0.010999999999999524047 0.056939999999999969804" rpy="3.141592653589793116 1.5707963267948945596 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="3.8133412898867269891e-32 0.010999999999999524047 0.056939999999999969804" rpy="3.141592653589793116 1.5707963267948945596 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.01730000000000003757 -0.040000000000000007772 0.056940000000000004499" rpy="3.141592653589793116 1.5707963267948945596 0" />
+<geometry>
+<mesh filename="package:///m2.5x25__list_khwhpz53lblddb__25.stl"/>
+</geometry>
+<material name="m2.5x25__list_khwhpz53lblddb__25_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.01730000000000003757 -0.040000000000000007772 0.056940000000000004499" rpy="3.141592653589793116 1.5707963267948945596 0" />
+<geometry>
+<mesh filename="package:///m2.5x25__list_khwhpz53lblddb__25.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-1.0408340855860571396e-17 -0.080000000000000140443 0.048140000000000029989" rpy="9.6093355125317314647e-46 6.6613381477509352982e-16 -9.180875922771856145e-30" />
+<geometry>
+<mesh filename="package:///hn05-i101.stl"/>
+</geometry>
+<material name="hn05-i101_material">
+<color rgba="0.80000000000000004441 0.77647058823529413463 0.71372549019607844922 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-1.0408340855860571396e-17 -0.080000000000000140443 0.048140000000000029989" rpy="9.6093355125317314647e-46 6.6613381477509352982e-16 -9.180875922771856145e-30" />
+<geometry>
+<mesh filename="package:///hn05-i101.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.017300000000000027162 -0.062000000000000082823 0.047940000000000038138" rpy="-3.141592653589793116 1.570796326794896336 0" />
+<geometry>
+<mesh filename="package:///m2.5x12__list_khwhpz53lblddb__12.stl"/>
+</geometry>
+<material name="m2.5x12__list_khwhpz53lblddb__12_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.017300000000000027162 -0.062000000000000082823 0.047940000000000038138" rpy="-3.141592653589793116 1.570796326794896336 0" />
+<geometry>
+<mesh filename="package:///m2.5x12__list_khwhpz53lblddb__12.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.0077781745930519986809 0.0077781745930520090893 0.056940000000000025315" rpy="-3.141592653589793116 1.570796326794896336 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.0077781745930519986809 0.0077781745930520090893 0.056940000000000025315" rpy="-3.141592653589793116 1.570796326794896336 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.017299999999999995937 -0.040000000000000063283 0.039500000000000014266" rpy="-1.570796326794896558 -1.5707963267948961139 0" />
+<geometry>
+<mesh filename="package:///ecrou_2.5.stl"/>
+</geometry>
+<material name="ecrou_2.5_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.017299999999999995937 -0.040000000000000063283 0.039500000000000014266" rpy="-1.570796326794896558 -1.5707963267948961139 0" />
+<geometry>
+<mesh filename="package:///ecrou_2.5.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="1.5831144142863078712e-31 -0.010999999999999995892 -0.0049999999999999905631" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="1.5831144142863078712e-31 -0.010999999999999995892 -0.0049999999999999905631" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.017299999999999988998 -0.062000000000000082823 0.047940000000000024261" rpy="-3.141592653589793116 1.570796326794896336 0" />
+<geometry>
+<mesh filename="package:///m2.5x12__list_khwhpz53lblddb__12.stl"/>
+</geometry>
+<material name="m2.5x12__list_khwhpz53lblddb__12_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.017299999999999988998 -0.062000000000000082823 0.047940000000000024261" rpy="-3.141592653589793116 1.570796326794896336 0" />
+<geometry>
+<mesh filename="package:///m2.5x12__list_khwhpz53lblddb__12.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.007778174593052022967 -0.0077781745930520368448 -0.0049999999999999905631" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.007778174593052022967 -0.0077781745930520368448 -0.0049999999999999905631" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.01730000000000003757 -0.040000000000000007772 -0.0050000000000000009714" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x16__list_khwhpz53lblddb__16.stl"/>
+</geometry>
+<material name="m2.5x16__list_khwhpz53lblddb__16_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.01730000000000003757 -0.040000000000000007772 -0.0050000000000000009714" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x16__list_khwhpz53lblddb__16.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.017300000000000013284 -0.040000000000000007772 -0.0050000000000000079103" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x16__list_khwhpz53lblddb__16.stl"/>
+</geometry>
+<material name="m2.5x16__list_khwhpz53lblddb__16_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.017300000000000013284 -0.040000000000000007772 -0.0050000000000000079103" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x16__list_khwhpz53lblddb__16.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.01100000000000000977 -1.3877787807814456755e-17 -0.0049999999999999905631" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.01100000000000000977 -1.3877787807814456755e-17 -0.0049999999999999905631" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.010999999999999537925 -1.3877787807814456755e-17 0.056939999999999969804" rpy="3.141592653589793116 1.5707963267948945596 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.010999999999999537925 -1.3877787807814456755e-17 0.056939999999999969804" rpy="3.141592653589793116 1.5707963267948945596 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.0077781745930516899001 0.0077781745930516760223 0.056939999999999969804" rpy="3.141592653589793116 1.5707963267948945596 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.0077781745930516899001 0.0077781745930516760223 0.056939999999999969804" rpy="3.141592653589793116 1.5707963267948945596 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.017299999999999995937 -0.062000000000000110578 0.039500000000000014266" rpy="-1.570796326794896558 -1.5707963267948961139 0" />
+<geometry>
+<mesh filename="package:///ecrou_2.5.stl"/>
+</geometry>
+<material name="ecrou_2.5_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.017299999999999995937 -0.062000000000000110578 0.039500000000000014266" rpy="-1.570796326794896558 -1.5707963267948961139 0" />
+<geometry>
+<mesh filename="package:///ecrou_2.5.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.007778174593052022967 0.0077781745930519952115 -0.0049999999999999905631" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.007778174593052022967 0.0077781745930519952115 -0.0049999999999999905631" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.007778174593052022967 0.0077781745930519952115 -0.0049999999999999905631" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.007778174593052022967 0.0077781745930519952115 -0.0049999999999999905631" rpy="-8.8321108118714961648e-31 -1.570796326794896558 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.017300000000000013284 -0.062000000000000082823 0.0040000000000000139611" rpy="-1.7478540764356497864e-29 -1.5707963267948958919 0" />
+<geometry>
+<mesh filename="package:///m2.5x12__list_khwhpz53lblddb__12.stl"/>
+</geometry>
+<material name="m2.5x12__list_khwhpz53lblddb__12_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.017300000000000013284 -0.062000000000000082823 0.0040000000000000139611" rpy="-1.7478540764356497864e-29 -1.5707963267948958919 0" />
+<geometry>
+<mesh filename="package:///m2.5x12__list_khwhpz53lblddb__12.stl"/>
+</geometry>
+</collision>
+<inertial>
+<origin xyz="2.6671301577951893112e-06 -0.056352913596804998786 0.026216070007203023939" rpy="0 0 0"/>
+<mass value="0.21536065732310269438" />
+<inertia ixx="0.00018074161454575054728" ixy="7.551873235251783787e-09"  ixz="-3.8390984079480050495e-09" iyy="8.6854206100235123466e-05" iyz="-3.6092224257836374319e-07" izz="0.00014482880764798717471" />
+</inertial>
+</link>
+
+<link name="second_segment">
+<visual>
+<origin xyz="-0.010000000000020098714 0.080000000000012727597 0.056939999999994189706" rpy="3.1415926535896767646 1.570796326794876574 0" />
+<geometry>
+<mesh filename="package:///m2.5x8__list_khwhpz53lblddb_copy_of_6.stl"/>
+</geometry>
+<material name="m2.5x8__list_khwhpz53lblddb_copy_of_6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.010000000000020098714 0.080000000000012727597 0.056939999999994189706" rpy="3.1415926535896767646 1.570796326794876574 0" />
+<geometry>
+<mesh filename="package:///m2.5x8__list_khwhpz53lblddb_copy_of_6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.011000000000011606396 3.0808688933348093997e-15 0.056939999999996035451" rpy="3.1415926535896767646 1.570796326794876574 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.011000000000011606396 3.0808688933348093997e-15 0.056939999999996035451" rpy="3.1415926535896767646 1.570796326794876574 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.0077781745930416848825 0.0077781745930581291937 0.056939999999995750957" rpy="3.1415926535896767646 1.570796326794876574 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.0077781745930416848825 0.0077781745930581291937 0.056939999999995750957" rpy="3.1415926535896767646 1.570796326794876574 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.0077781745930406804776 0.0077781745930546597467 -0.0050000000000004346523" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.0077781745930406804776 0.0077781745930546597467 -0.0050000000000004346523" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-1.0505877279243098939e-14 -0.011000000000001217138 -0.005000000000000028727" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-1.0505877279243098939e-14 -0.011000000000001217138 -0.005000000000000028727" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.0077781745930433250635 -0.0077781745930476375861 0.056939999999996118718" rpy="3.1415926535896767646 1.570796326794876574 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.0077781745930433250635 -0.0077781745930476375861 0.056939999999996118718" rpy="3.1415926535896767646 1.570796326794876574 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-9.1680518732317177999e-15 -0.010999999999996915023 0.056939999999996215863" rpy="3.1415926535896767646 1.570796326794876574 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-9.1680518732317177999e-15 -0.010999999999996915023 0.056939999999996215863" rpy="3.1415926535896767646 1.570796326794876574 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-4.7184478546566944157e-16 -0.079999999999999127365 0.025969999999999011236" rpy="-3.7464590255264187402e-42 6.9063093133398323345e-32 3.3631163143795609702e-43" />
+<geometry>
+<mesh filename="package:///weight.stl"/>
+</geometry>
+<material name="weight_material">
+<color rgba="0.30196078431372547213 0.30196078431372547213 0.30196078431372547213 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-4.7184478546566944157e-16 -0.079999999999999127365 0.025969999999999011236" rpy="-3.7464590255264187402e-42 6.9063093133398323345e-32 3.3631163143795609702e-43" />
+<geometry>
+<mesh filename="package:///weight.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.010999999999990893798 5.6898930012039272697e-15 0.056939999999995910551" rpy="3.1415926535896767646 1.570796326794876574 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.010999999999990893798 5.6898930012039272697e-15 0.056939999999995910551" rpy="3.1415926535896767646 1.570796326794876574 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-4.7184478546567949955e-16 -0.080000000000007648326 0.025969999999999517776" rpy="-5.4067861299246821147e-14 -2.492450690283268174e-14 9.3480778673438748684e-14" />
+<geometry>
+<mesh filename="package:///second_segment_mid.stl"/>
+</geometry>
+<material name="second_segment_mid_material">
+<color rgba="0.2313725490196078538 0.38039215686274507888 0.7058823529411765163 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-4.7184478546567949955e-16 -0.080000000000007648326 0.025969999999999517776" rpy="-5.4067861299246821147e-14 -2.492450690283268174e-14 9.3480778673438748684e-14" />
+<geometry>
+<mesh filename="package:///second_segment_mid.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-1.1558695112157035963e-14 0.011000000000005644152 0.05693999999999573014" rpy="3.1415926535896772087 1.5707963267948585884 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-1.1558695112157035963e-14 0.011000000000005644152 0.05693999999999573014" rpy="3.1415926535896772087 1.5707963267948585884 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-2.461095771621982891e-14 0.12000000000001947997 -0.0082300000000023638969" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m6x75__list_mjvwsrrj0slq2e__75.stl"/>
+</geometry>
+<material name="m6x75__list_mjvwsrrj0slq2e__75_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-2.461095771621982891e-14 0.12000000000001947997 -0.0082300000000023638969" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m6x75__list_mjvwsrrj0slq2e__75.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.010999999999989970925 1.8041124150158793782e-15 -0.0050000000000002958744" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.010999999999989970925 1.8041124150158793782e-15 -0.0050000000000002958744" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-2.427799072890457726e-14 0.12000000000002103429 0.06266999999999292581" rpy="3.1415926535896590011 1.5707963267948403807 0" />
+<geometry>
+<mesh filename="package:///ecrou_6.stl"/>
+</geometry>
+<material name="ecrou_6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-2.427799072890457726e-14 0.12000000000002103429 0.06266999999999292581" rpy="3.1415926535896590011 1.5707963267948403807 0" />
+<geometry>
+<mesh filename="package:///ecrou_6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.0099999999999821637814 0.080000000000014920287 0.056939999999994092561" rpy="3.1415926535896767646 1.570796326794876574 0" />
+<geometry>
+<mesh filename="package:///m2.5x8__list_khwhpz53lblddb_copy_of_6.stl"/>
+</geometry>
+<material name="m2.5x8__list_khwhpz53lblddb_copy_of_6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.0099999999999821637814 0.080000000000014920287 0.056939999999994092561" rpy="3.1415926535896767646 1.570796326794876574 0" />
+<geometry>
+<mesh filename="package:///m2.5x8__list_khwhpz53lblddb_copy_of_6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-1.2841009366937165586e-14 0.011000000000002174705 -0.0050000000000004485301" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-1.2841009366937165586e-14 0.011000000000002174705 -0.0050000000000004485301" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-4.7184478546567871069e-16 -0.080000000000007648326 0.025969999999999483081" rpy="-5.1847415249996564864e-14 -2.3259172365894839644e-14 9.814371537686438091e-14" />
+<geometry>
+<mesh filename="package:///second_segment_half_1.stl"/>
+</geometry>
+<material name="second_segment_half_1_material">
+<color rgba="0.2313725490196078538 0.38039215686274507888 0.7058823529411765163 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-4.7184478546567871069e-16 -0.080000000000007648326 0.025969999999999483081" rpy="-5.1847415249996564864e-14 -2.3259172365894839644e-14 9.814371537686438091e-14" />
+<geometry>
+<mesh filename="package:///second_segment_half_1.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.0099999999999812686641 0.080000000000014281909 -0.0050000000000018883506" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x8__list_khwhpz53lblddb_copy_of_6.stl"/>
+</geometry>
+<material name="m2.5x8__list_khwhpz53lblddb_copy_of_6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.0099999999999812686641 0.080000000000014281909 -0.0050000000000018883506" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x8__list_khwhpz53lblddb_copy_of_6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.011000000000013320303 -7.4940054162198066479e-16 -0.0050000000000001779132" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.011000000000013320303 -7.4940054162198066479e-16 -0.0050000000000001779132" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="0.0077781745930423761698 -0.007778174593051828678 -0.0050000000000001362799" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.0077781745930423761698 -0.007778174593051828678 -0.0050000000000001362799" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="6.1629758220391547298e-33 -0.080000000000000015543 0.025969999999999996559" rpy="-3.7464590255264187402e-42 6.9063093133398323345e-32 3.3631163143795609702e-43" />
+<geometry>
+<mesh filename="package:///second_segment_half_2.stl"/>
+</geometry>
+<material name="second_segment_half_2_material">
+<color rgba="0.2313725490196078538 0.38039215686274507888 0.7058823529411765163 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="6.1629758220391547298e-33 -0.080000000000000015543 0.025969999999999996559" rpy="-3.7464590255264187402e-42 6.9063093133398323345e-32 3.3631163143795609702e-43" />
+<geometry>
+<mesh filename="package:///second_segment_half_2.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.010000000000021784866 0.080000000000011978196 -0.0050000000000017807977" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x8__list_khwhpz53lblddb_copy_of_6.stl"/>
+</geometry>
+<material name="m2.5x8__list_khwhpz53lblddb_copy_of_6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.010000000000021784866 0.080000000000011978196 -0.0050000000000017807977" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x8__list_khwhpz53lblddb_copy_of_6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.0077781745930640532743 -0.0077781745930536883016 -0.0050000000000000252576" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.0077781745930640532743 -0.0077781745930536883016 -0.0050000000000000252576" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.0077781745930624382468 -0.0077781745930494972097 0.056939999999996201985" rpy="3.1415926535896767646 1.570796326794876574 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.0077781745930624382468 -0.0077781745930494972097 0.056939999999996201985" rpy="3.1415926535896767646 1.570796326794876574 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.007778174593065721211 0.0077781745930527723676 -0.0050000000000003513856" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.007778174593065721211 0.0077781745930527723676 -0.0050000000000003513856" rpy="1.0813028935823175312e-13 -1.5707963267948583663 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<visual>
+<origin xyz="-0.0077781745930640784278 0.0077781745930562973257 0.056939999999995834223" rpy="3.1415926535896767646 1.570796326794876574 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+<material name="m2.5x6__list_khwhpz53lblddb__6_material">
+<color rgba="0.69019607843137253944 0.69019607843137253944 0.69019607843137253944 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.0077781745930640784278 0.0077781745930562973257 0.056939999999995834223" rpy="3.1415926535896767646 1.570796326794876574 0" />
+<geometry>
+<mesh filename="package:///m2.5x6__list_khwhpz53lblddb__6.stl"/>
+</geometry>
+</collision>
+<inertial>
+<origin xyz="-2.8368796113244147592e-15 0.11312813124869894321 0.026064813578392718313" rpy="0 0 0"/>
+<mass value="0.36541841416978143586" />
+<inertia ixx="0.0003754921667912029218" ixy="1.8029101576263703056e-16"  ixz="5.3126171149585734235e-18" iyy="0.00016026432318777571791" iyz="-2.3808700869971124203e-07" izz="0.00026036872882320526287" />
+</inertial>
+</link>
+
+<link name="end">
+<inertial>
+<origin xyz="0 0 0" rpy="0 0 0" />
+<mass value="1e-9" />
+<inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+</inertial>
+</link>
+<joint name="end_frame" type="fixed">
+<origin xyz="-4.7218180916696247238e-16 0.12000000000000088374 0.025969999999999011236" rpy="1.5707963267948945596 -4.6349354574390408373e-31 3.141592653589793116" />
+<parent link="second_segment" />
+<child link="end" />
+<axis xyz="0 0 0"/>
+</joint>
+
+<joint name="R2" type="revolute">
+<origin xyz="-1.7486012637844104816e-18 -0.080000000000000084932 3.4694469519536141888e-18" rpy="3.3306690739176569164e-16 -1.8988215193149883738e-15 -3.141592653589793116" />
+<parent link="first_segment" />
+<child link="second_segment" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" lower="-1.9198621771937625091" upper="1.9198621771937625091"/>
+<joint_properties friction="0.0"/>
+</joint>
+
+<joint name="R1" type="revolute">
+<origin xyz="-1.9066706449433634945e-32 -0.025970000000000017376 0.054800000000000001488" rpy="-1.570796326794896558 1.9588616632292376152e-29 6.1232339957367574077e-17" />
+<parent link="base" />
+<child link="first_segment" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" lower="-1.570796326794896558" upper="1.570796326794896558"/>
+<joint_properties friction="0.0"/>
+</joint>
+
+
+</robot>
