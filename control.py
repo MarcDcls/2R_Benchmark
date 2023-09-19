@@ -6,54 +6,77 @@ from motor import *
 import argparse
 
 
-def measure_getting_time(n=300):
-    t0 = time.time()
-    print()
-    for i in range(n):
-        get_position(1)
-    return (time.time() - t0) / n
+def R1_sinus(id, read_pos=True, read_current=True, duration=5):
+    """ Sinusoidal trajectory on a R1 arm with read position and read current plots """
 
-def measure_setting_write_only_time(n=300):
-    t0 = time.time()
-    for i in range(n):
-        set_position(1, np.pi/2, write_only=True)
-    return (time.time() - t0) / n
-    
-def measure_setting_read_write_time(n=300):
-    t0 = time.time()
-    error_count = 0
-    for i in range(n):
-        if not set_position(1, np.pi/2, write_only=False):
-            error_count += 1
-    return (time.time() - t0) / n, error_count
+    # Position Control Mode
+    disable_torque()
+    set_control_mode(POSITION_CONTROL_MODE)
+    enable_torque()
 
-def reaching_initial_configuration():
-    """Reaching the initial configuration of the robot."""
-    print("Reaching initial configuration...")
-    q = initial_configuration()
-    set_position(1, q[0], write_only=False)
-    set_position(2, q[1], write_only=False)
+    # Reaching initial position
+    set_position(id, 0)
     time.sleep(1)
-    print("Initial configuration reached!")
 
-def simple_movement_plot(label):
-    t0 = time.time()
-    t = t0
+    # Trajectory
     read_positions = []
+    read_currents = []
+    t0 = time.time()
+    t = time.time() - t0
+    while t < duration:
+        set_position(id, np.pi/2 * np.sin(t * np.pi/2))
+        if read_pos:
+            read_positions.append((t, get_position(id)))
+        if read_current:
+            read_currents.append((t, get_current(id)))
+        t = time.time() - t0
+
+    # Freeing the motor
+    set_position(2, np.pi/2, write_only=True)
+
+    # Reference values
+    goal_positions = []
+    for t in np.arange(0, duration, 1e-5):
+        goal_positions.append((t, np.pi/2 * np.sin(t * np.pi/2)))
+    goal_positions = np.array(goal_positions)
+
+    # Plotting
+    if read_pos:
+        read_positions = np.array(read_positions)
+        plt.plot(read_positions.T[0], read_positions.T[1], label="read_position")
+        plt.plot(goal_positions.T[0], goal_positions.T[1], label="goal_position")
+        plt.xlabel("Time (s)")
+        plt.ylabel("Position (rad)")
+        plt.legend()
+        plt.show()
+
+    if read_current:
+        read_currents = np.array(read_currents)
+        fig, ax1 = plt.subplots()
+        ax1.plot(read_currents.T[0], read_currents.T[1], label="read_current")
+        ax1.set_xlabel("Time (s)")
+        ax1.set_ylabel("Position (rad)")
+        ax2 = ax1.twinx()
+        ax2.plot(goal_positions.T[0], goal_positions.T[1], label="goal_position", color="red")
+        ax2.set_ylabel("Current (mA)")
+        fig.legend()
+        plt.show()        
+
+def current_threshold_identification():
+    """ Minimal current to move the motor from a static position : 
+    5 index = 16.8 mA (Threshold at 15.12 mA due to rounding) """
+
+    # Current Control Mode
+    disable_torque()
+    set_control_mode(CURRENT_CONTROL_MODE)
+    enable_torque()
+
+    set_current(1, 15.12 + 1e-5)
+    t0 = time.time()
+    while time.time() - t0 < 1:
+        print(get_position(1))
     
-    while t - t0 < args.duration:
-        read_positions.append((t - t0, get_position(1), get_position(2)))
-        t_test = time.time()
-        r1, r2 = get_motors_position(t - t0, traj_type=args.trajectory, period=args.period)
-        print(f"{time.time() - t_test} s")
-        set_position(1, r1, write_only=False)
-        set_position(2, r2, write_only=False)
-        t = time.time()
-
-    read_positions = np.array(read_positions)
-    plt.plot(read_positions.T[0], read_positions.T[1], label=f"R1_{label}")
-    plt.plot(read_positions.T[0], read_positions.T[2], label=f"R2_{label}")
-
+    disable_torque()
 
 if __name__ == '__main__':
     # Parsing arguments with long and short options
@@ -65,51 +88,34 @@ if __name__ == '__main__':
 
     init_connection()
 
-    set_return_status(RETURN_STATUS_ALL)
+    set_return_status(RETURN_STATUS_PING_READ)
     set_return_delay_time(0)
     set_moving_threshold(10) # Default: 10
+    check_latency()
 
     print("Motors initialization done!")
-    time.sleep(2)
+    time.sleep(1)
 
+    # R1_sinus(2)
+
+    # Current Control Mode
+    disable_torque()
+    set_control_mode(CURRENT_CONTROL_MODE)
     enable_torque()
 
-    # Measuring timings
-    print(f"Getting time: {measure_getting_time()} s")
-    print(f"Setting time (write only): {measure_setting_write_only_time()} s")
-    measured_time, error_count = measure_setting_read_write_time()
-    print(f"Setting time (read/write): {measured_time} s")
-    print(f"Error count: {error_count}")
+    # Reaching initial current
+    # set_current(1, 100)
 
-    # # Position Control Mode
-    # disable_torque()
-    # set_control_mode([1, 2], POSITION_CONTROL_MODE)
-    # enable_torque()
-
-    # reaching_initial_configuration()
-    # simple_movement_plot("position")
-
-    # # Trajectory in position control mode   
-    # disable_torque()
-    # set_control_mode([1, 2], CURRENT_BASED_POSITION_CONTROL_MODE)
-    # enable_torque()
+    # t0 = time.time()
+    # t = time.time() - t0
+    # while t < 5:
+    #     set_current(1, 15.12 + 1e-5)
+    #     t = time.time() - t0
+    # set_current(1, 15.12 + 1e-5)
+    # t0 = time.time()
+    # while time.time() - t0 < 1:
+    #     print(get_position(1))
     
-    # reaching_initial_configuration()
-    # simple_movement_plot("current_based_position")
-
-    # Freeing the motors
-    set_position(1, 90, write_only=False)
-    set_position(2, 0, write_only=False)
-    time.sleep(1)
 
     disable_torque()
     close_connection()
-
-    # # Plotting the goal trajectory  
-    # goal_positions = get_motors_positions(args.duration, traj_type=args.trajectory, period=args.period, framerate=0.001)
-    # goal_positions = np.array(goal_positions)
-    # timeline = np.arange(0, args.duration, 0.001)
-    # plt.plot(timeline, goal_positions.T[0], label="R1_goal")
-    # plt.plot(timeline, goal_positions.T[1], label="R2_goal")
-
-    # plt.show()
