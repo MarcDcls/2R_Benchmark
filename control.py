@@ -62,7 +62,7 @@ def R1_sinus(id, read_pos=True, read_current=True, duration=5):
         fig.legend()
         plt.show()        
 
-def current_threshold_identification():
+def current_threshold_identification(id):
     """ Minimal current to move the motor from a static position : 
     5 index = 16.8 mA (Threshold at 15.12 mA due to rounding) """
 
@@ -71,10 +71,10 @@ def current_threshold_identification():
     set_control_mode(CURRENT_CONTROL_MODE)
     enable_torque()
 
-    set_current(1, 15.12 + 1e-5)
+    set_current(id, 15.12 + 1e-5)
     t0 = time.time()
     while time.time() - t0 < 1:
-        print(get_position(1))
+        print(get_position(id))
     
     disable_torque()
 
@@ -97,6 +97,7 @@ if __name__ == '__main__':
     time.sleep(1)
 
     # R1_sinus(2)
+    # current_threshold_identification(1)
 
     # Current Control Mode
     disable_torque()
