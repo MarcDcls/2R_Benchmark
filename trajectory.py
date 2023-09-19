@@ -16,7 +16,7 @@ base_task.configure("base", "hard", 1., 1.)
 
 # Creating end task
 y_offset = robot.get_T_world_frame("end")[1, 3]
-z_offset = 0.2
+z_offset = 0.3
 end_task = solver.add_position_task("end", np.array([0., y_offset, z_offset]))
 end_task.configure("end", "soft", 1.0)
 
@@ -31,16 +31,19 @@ def initial_configuration():
     """Return the initial configuration of the robot."""
     return np.array([initial_R1, initial_R2])
 
-def circle_trajectory(t, period, diameter=0.04):
+
+def circle_trajectory(t, period, diameter=0.07):
     """Return a 2D circle trajectory."""
     x = diameter/2 * np.sin(2*np.pi * t / period)
     z = diameter/2 * (np.cos(2*np.pi * t / period + np.pi) + 1) + z_offset
     return np.array([x, z])
 
-def line_trajectory(t, period, length=0.05):
+
+def line_trajectory(t, period, length=0.15):
     """Return a 2D line trajectory."""
     x = length/2 * np.sin(2*np.pi * t / period)
     return np.array([x, z_offset])
+
 
 def get_motors_position(t, period, traj_type):
     """Return the motors position for the given trajectory."""
@@ -51,11 +54,12 @@ def get_motors_position(t, period, traj_type):
         x, z = circle_trajectory(t, period=period)
     else:
         raise ValueError("Unknown trajectory type: %s" % traj_type)
-    
+
     end_task.target_world = np.array([x, y_offset, z])
     solver.solve(True)
     robot.update_kinematics()
     return robot.get_joint("R1"), robot.get_joint("R2")
+
 
 def get_motors_positions(duration, period=1, traj_type="line", framerate=0.01):
     """Return an array containing the motors positions for the given trajectory."""
@@ -64,6 +68,7 @@ def get_motors_positions(duration, period=1, traj_type="line", framerate=0.01):
         r1, r2 = get_motors_position(t, traj_type=traj_type, period=period)
         positions.append((r1, r2))
     return np.array(positions)
+
 
 # Testing the trajectories
 if __name__ == '__main__':
