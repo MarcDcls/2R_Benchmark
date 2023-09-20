@@ -222,7 +222,6 @@ def sign(value, nb_bytes):
 def measure_getting_time(id=DXL_IDS[0], n=10000):
     """Measure the time of getting the position of the motor"""
     t0 = time.time()
-    print()
     for i in range(n):
         get_position(id)
     return (time.time() - t0) / n
@@ -256,6 +255,7 @@ def measure_timings():
 def check_latency():
     """Check the latency of the connection"""
     print("Checking latency...")
+    disable_torque()
     set_control_mode(POSITION_CONTROL_MODE)
     enable_torque()
     latency = measure_getting_time(n=1)
