@@ -5,24 +5,29 @@ BAUDRATE         = 3000000
 PROTOCOL_VERSION = 2.0
 DEVICENAME       = '/dev/ttyUSB0'
 
-DXL_IDS = [1]
+DXL_IDS = [2]
 
 portHandler = PortHandler(DEVICENAME)
 packetHandler = PacketHandler(PROTOCOL_VERSION)
 
-ADDR_RETURN_DELAY     = 9
-ADDR_CONTROL_MODE     = 11
-ADDR_MOVING_TRESHOLD  = 24
-ADDR_TORQUE_ENABLE    = 64
-ADDR_RETURN_STATUS    = 68
-ADDR_GOAL_CURRENT     = 102
-ADDR_GOAL_POSITION    = 116
-ADDR_PRESENT_CURRENT  = 126
-ADDR_PRESENT_POSITION = 132
+ADDR_RETURN_DELAY          = 9
+ADDR_CONTROL_MODE          = 11
+ADDR_MOVING_TRESHOLD       = 24
+ADDR_TORQUE_ENABLE         = 64
+ADDR_RETURN_STATUS         = 68
+ADDR_GOAL_PWM              = 100
+ADDR_GOAL_CURRENT          = 102
+ADDR_GOAL_POSITION         = 116
+ADDR_PRESENT_PWM           = 124
+ADDR_PRESENT_CURRENT       = 126
+ADDR_PRESENT_POSITION      = 132
+ADDR_PRESENT_VELOCITY      = 128
+ADDR_PRESENT_ACCERLERATION = 126
 
 CURRENT_CONTROL_MODE                = 0
 POSITION_CONTROL_MODE               = 3
 CURRENT_BASED_POSITION_CONTROL_MODE = 5
+PWM_CONTROL_MODE                    = 16
 
 RETURN_STATUS_PING = 0
 RETURN_STATUS_PING_READ = 1
@@ -177,11 +182,23 @@ def get_position(id):
     elif dxl_error != 0:
         print("%s" % packetHandler.getRxPacketError(dxl_error))
     else:
-        # Convert index to degree
-        position = dxl_present_position * (2*np.pi) / \
-            (DXL_MAXIMUM_POSITION_VALUE+1) - np.pi
+        # Convert index to radian
+        position = dxl_present_position * (2*np.pi) / (DXL_MAXIMUM_POSITION_VALUE+1) - np.pi
         return position
     
+def get_velocity(id, use_rpm=False):
+    """Get the velocity (rad/s) of the motor"""
+    dxl_present_velocity, dxl_comm_result, dxl_error = packetHandler.read4ByteTxRx(
+        portHandler, id, ADDR_PRESENT_VELOCITY)
+    if dxl_comm_result != COMM_SUCCESS:
+        print("%s" % packetHandler.getTxRxResult(dxl_comm_result))
+    elif dxl_error != 0:
+        print("%s" % packetHandler.getRxPacketError(dxl_error))
+    else:
+        # Convert index to rad/s or rpm
+        velocity = sign(dxl_present_velocity, 4) * 0.229 if use_rpm else sign(dxl_present_velocity, 4) * 0.229 * 2*np.pi / 60
+        return velocity
+
 def set_current(id, current, write_only=True):
     """Set the current (mA) of the motor"""
     # Convert mA to index
@@ -210,6 +227,35 @@ def get_current(id):
     else:
         current = sign(index, 2) * 3.36
         return current
+    
+def set_pwm(id, pwm, write_only=True):
+    """Set the pwm (% of Vmax) of the motor"""
+    # Convert pwm to index
+    index = unsign(round(pwm * 8.85), 2)
+
+    # Write goal position
+    if write_only:
+        packetHandler.write2ByteTxOnly(portHandler, id, ADDR_GOAL_PWM, index)
+    else:
+        dxl_comm_result, dxl_error = packetHandler.write2ByteTxRx(portHandler, id, ADDR_GOAL_PWM, index)
+        if dxl_comm_result != COMM_SUCCESS:
+            print("%s" % packetHandler.getTxRxResult(dxl_comm_result))
+            return False
+        elif dxl_error != 0:
+            print("%s" % packetHandler.getRxPacketError(dxl_error))
+            return False
+        return True
+
+def get_pwm(id):
+    """Get the pwm (% of Vmax) of the motor"""
+    index, dxl_comm_result, dxl_error = packetHandler.read2ByteTxRx(portHandler, id, ADDR_PRESENT_PWM)
+    if dxl_comm_result != COMM_SUCCESS:
+        print("%s" % packetHandler.getTxRxResult(dxl_comm_result))
+    elif dxl_error != 0:
+        print("%s" % packetHandler.getRxPacketError(dxl_error))
+    else:
+        pwm = sign(index, 2) / 8.85
+        return pwm
     
 def unsign(value, nb_bytes):
     """Convert a signed value to an unsigned value"""

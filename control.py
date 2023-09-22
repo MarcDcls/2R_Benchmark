@@ -6,7 +6,7 @@ from trajectory import get_motors_positions, get_motors_position, initial_config
 from motor import *
 import argparse
 
-FRAMERATE = 800 # Hz
+FRAMERATE = 300 # Hz
 
 
 # Sinusoidal trajectories
@@ -19,7 +19,24 @@ def dfsin(t):
 def ddfsin(t):
     return - np.pi**3/16 * np.sin(t * np.pi/2 + np.pi/2)
     
-def R1_position_sinus(id, read_pos=True, read_current=True, duration=8, filename="None"):
+def read_data(id, position=True, velocity=True, current=True, pwm=True):
+    """ Read data from the motors """
+    data = {"position": None, "velocity": None, "current": None, "pwm": None}
+    if position:
+        while type(data["position"]) != float:
+            data["position"] = get_position(id)
+    if velocity:
+        while type(data["velocity"]) != float:
+            data["velocity"] = get_velocity(id)
+    if current:
+        while type(data["current"]) != float:
+            data["current"] = get_current(id)
+    if pwm:
+        while type(data["pwm"]) != float:
+            data["pwm"] = get_pwm(id)
+    return data
+
+def R1_position_sinus(id, duration=8, filename="None"):
     """ Sinusoidal trajectory on a R1 arm using position control with read position and read current plots """
     # Position Control Mode
     disable_torque()
@@ -31,8 +48,11 @@ def R1_position_sinus(id, read_pos=True, read_current=True, duration=8, filename
     time.sleep(1)
 
     # Trajectory
-    read_positions = []
-    read_currents = []
+    read_position = []
+    read_velocity = []
+    read_current = []
+    read_pwm = []
+    timeline = []
     t0 = time.time()
     t_sum = - 1/FRAMERATE
     while t_sum < duration:
@@ -40,15 +60,15 @@ def R1_position_sinus(id, read_pos=True, read_current=True, duration=8, filename
         if t < 1/FRAMERATE:
             continue
 
-        # Getting values
-        if read_pos:
-            read_positions.append(get_position(id))
-        if read_current:
-            read_currents.append(get_current(id))
+        data = read_data(id, position=True, velocity=True, current=True, pwm=True)
+        read_position.append(data["position"])
+        read_velocity.append(data["velocity"])
+        read_current.append(data["current"])
+        read_pwm.append(data["pwm"])
 
-        # Setting values
         t_sum += t
         set_position(id, fsin(t_sum))
+        timeline.append(t_sum)
         t0 += t
 
     # Freeing the motor
@@ -57,50 +77,37 @@ def R1_position_sinus(id, read_pos=True, read_current=True, duration=8, filename
     disable_torque()
 
     # Reference values
-    timeline = np.arange(0, duration + 1/FRAMERATE, 1/FRAMERATE).tolist()
-    goal_positions = []
+    goal_position = []
+    goal_velocitie = []
+    goal_acceleration = []
     for t in timeline:
-        goal_positions.append(fsin(t))
+        goal_position.append(fsin(t))
+        goal_velocitie.append(dfsin(t))
+        goal_acceleration.append(ddfsin(t))
 
     # Saving data
     if filename != "None":
         data = {
             "timestamps": timeline,
-            "read_positions": read_positions,
-            "read_currents": read_currents,
-            "goal_positions": goal_positions
+            "read_position": read_position,
+            "read_velocity": read_velocity,
+            "read_current": read_current,
+            "read_pwm": read_pwm,
+            "goal_position": goal_position,
+            "goal_velocitie": goal_velocitie,
+            "goal_acceleration": goal_acceleration
         }
         with open(filename, 'w') as f:
             json.dump(data, f)
         print("Data saved in %s" % filename)
-    
-    # Plotting
-    if read_pos:
-        plt.plot(timeline, read_positions, label="read_position")
-        plt.plot(timeline, goal_positions, label="goal_position")
-        plt.xlabel("Time (s)")
-        plt.ylabel("Position (rad)")
-        plt.legend()
-        plt.show()
 
-    if read_current:
-        fig, ax1 = plt.subplots()
-        ax1.plot(timeline, read_currents, label="read_current")
-        ax1.set_xlabel("Time (s)")
-        ax1.set_ylabel("Position (rad)")
-        ax2 = ax1.twinx()
-        ax2.plot(timeline, goal_positions, label="goal_position", color="red")
-        ax2.set_ylabel("Current (mA)")
-        fig.legend()
-        plt.show()        
-
-def R1_current_sinus(id, duration=8):
-    """Sinusoidal trajectory on a R1 arm using current control"""    
+def R1_current_sinus(id, max_current, period, duration=8, filename="None"):
+    """Sinusoidal trajectory on a R1 arm using current control - USE ONLY ON HORIZONTAL BENCH"""    
     # Reaching initial position
     disable_torque()
     set_control_mode(POSITION_CONTROL_MODE)
     enable_torque()
-    set_position(id, np.pi/2)
+    set_position(id, 0)
     time.sleep(1)
 
     # Current Control Mode
@@ -109,6 +116,11 @@ def R1_current_sinus(id, duration=8):
     enable_torque()
 
     # Trajectory
+    read_position = []
+    read_velocity = []
+    read_current = []
+    read_pwm = []
+    timeline = []
     t0 = time.time()
     t_sum = - 1/FRAMERATE
     while t_sum < duration:
@@ -116,16 +128,98 @@ def R1_current_sinus(id, duration=8):
         if t < 1/FRAMERATE:
             continue
 
-        current = robot.torques_from_acceleration_with_fixed_frame(np.array([ddfsin(t_sum)]), "base")["R1"] * 1000 / 0.021
+        data = read_data(id, position=True, velocity=True, current=True, pwm=True)
+        read_position.append(data["position"])
+        read_velocity.append(data["velocity"])
+        read_current.append(data["current"])
+        read_pwm.append(data["pwm"])
 
-        # Setting values
         t_sum += t
-        set_current(id, current)
+        set_current(id, max_current * np.sin(period * t_sum))
+        timeline.append(t_sum)
         t0 += t
 
     # Freeing the motor
     disable_torque()
 
+    # Reference values
+    goal_current = []
+    for t in timeline:
+        goal_current.append(max_current * np.sin(period * t))
+
+    # Saving data
+    if filename != "None":
+        data = {
+            "timestamps": timeline,
+            "read_position": read_position,
+            "read_velocity": read_velocity,
+            "read_current": read_current,
+            "read_pwm": read_pwm,
+            "goal_current": goal_current
+        }
+        with open(filename, 'w') as f:
+            json.dump(data, f)
+        print("Data saved in %s" % filename)
+    
+def R1_pwm_sinus(id, max_pwm, period, duration=8, filename="None"):
+    """Sinusoidal trajectory on a R1 arm using pwm control - USE ONLY ON HORIZONTAL BENCH"""    
+    # Reaching initial position
+    disable_torque()
+    set_control_mode(POSITION_CONTROL_MODE)
+    enable_torque()
+    set_position(id, 0)
+    time.sleep(1)
+
+    # PWM Control Mode
+    disable_torque()
+    set_control_mode(PWM_CONTROL_MODE)
+    enable_torque()
+
+    # Trajectory
+    read_position = []
+    read_velocity = []
+    read_current = []
+    read_pwm = []
+    timeline = []
+    t0 = time.time()
+    t_sum = - 1/FRAMERATE
+    while t_sum < duration:
+        t = time.time() - t0
+        if t < 1/FRAMERATE:
+            continue
+
+        data = read_data(id, position=True, velocity=True, current=True, pwm=True)
+        read_position.append(data["position"])
+        read_velocity.append(data["velocity"])
+        read_current.append(data["current"])
+        read_pwm.append(data["pwm"])
+
+        t_sum += t
+        set_pwm(id, max_pwm * np.sin(period * t_sum))
+        timeline.append(t_sum)
+        t0 += t
+
+    # Freeing the motor
+    disable_torque()
+
+    # Reference values
+    goal_pwms = []
+    for t in timeline:
+        goal_pwms.append(max_pwm * np.sin(period * t))
+
+    # Saving data
+    if filename != "None":
+        data = {
+            "timestamps": timeline,
+            "read_position": read_position,
+            "read_velocity": read_velocity,
+            "read_current": read_current,
+            "read_pwm": read_pwm,
+            "goal_pwm": goal_pwms
+        }
+        with open(filename, 'w') as f:
+            json.dump(data, f)
+        print("Data saved in %s" % filename)
 
 def current_threshold_identification(id):
     """ Minimal current to move the motor from a static position : 
@@ -142,6 +236,78 @@ def current_threshold_identification(id):
         print(get_position(id))
     
     disable_torque()
+
+def R1_random_pwm(id, duration, pwm_duration, pwm_max, filename="None"):
+    """ Random trajectory on a R1 arm using pwm control - USE CAUTIOUSLY """
+    # Reaching initial position
+    disable_torque()
+    set_control_mode(POSITION_CONTROL_MODE)
+    enable_torque()
+    set_position(id, 0)
+    time.sleep(1)
+
+    # PWM Control Mode
+    disable_torque()
+    set_control_mode(PWM_CONTROL_MODE)
+    enable_torque()
+
+    # Trajectory
+    read_position = []
+    read_velocity = []
+    read_current = []
+    read_pwm = []
+    goal_pwm = []
+    pwm_target = 0
+    timeline = []
+    t0 = time.time()
+    t_sum = - 1/FRAMERATE
+    t_sum_pwm = - 1/FRAMERATE
+    while t_sum < duration:
+        t = time.time() - t0
+        if t < 1/FRAMERATE:
+            continue
+        
+        data = read_data(id, position=True, velocity=True, current=True, pwm=True)
+        read_position.append(data["position"])
+        read_velocity.append(data["velocity"])
+        read_current.append(data["current"])
+        read_pwm.append(data["pwm"])
+
+        t_sum += t
+        t_sum_pwm += t
+        if read_position[-1] > np.pi/3:
+            pwm_target = np.random.uniform(-pwm_max, 0)
+            set_pwm(id, pwm_target)
+            t_sum_pwm = 0
+        elif read_position[-1] < -np.pi/3:
+            pwm_target = np.random.uniform(0, pwm_max)
+            set_pwm(id, pwm_target)
+            t_sum_pwm = 0
+        elif t_sum_pwm > pwm_duration:
+            pwm_target = np.random.uniform(-pwm_max, pwm_max)
+            set_pwm(id, pwm_target)
+            t_sum_pwm = 0
+
+        goal_pwm.append(pwm_target)
+        timeline.append(t_sum)
+        t0 += t
+
+    # Freeing the motor
+    disable_torque()
+
+    # Saving data
+    if filename != "None":
+        data = {
+            "timestamps": timeline,
+            "read_position": read_position,
+            "read_velocity": read_velocity,
+            "read_current": read_current,
+            "read_pwm": read_pwm,
+            "goal_pwm": goal_pwm
+        }
+        with open(filename, 'w') as f:
+            json.dump(data, f)
+        print("Data saved in %s" % filename)
 
 if __name__ == '__main__':
     # Parsing arguments with long and short options
@@ -160,6 +326,25 @@ if __name__ == '__main__':
 
     print("Motors initialization done!")
     time.sleep(1)
+
+    # Naming the file after the time of the day
+    name = time.strftime("%d-%H-%M")
+    R1_random_pwm(2, 300, .4, 100, filename=f"logs/R1_random_pwm_{name}.json")
+
+    # R1_pwm_sinus(2, 30, 2, duration=20, filename="R1_pwm_30.json")
+    # time.sleep(1)
+    # R1_pwm_sinus(2, 20, 1, duration=20, filename="R1_pwm_20.json")
+    # time.sleep(1)
+    # R1_pwm_sinus(2, 15, .5, duration=20, filename="R1_pwm_15.json")
+    # time.sleep(1)
+    # R1_pwm_sinus(2, 10, .25, duration=20, filename="R1_pwm_10.json")
+    # time.sleep(1)
+    
+    # R1_current_sinus(2, 200, 3, duration=20, filename="R1_current_3.json")
+    # time.sleep(1)
+    # R1_current_sinus(2, 200, 2, duration=20, filename="R1_current_2.json")
+    # time.sleep(1)
+    # R1_current_sinus(2, 200, 1, duration=20, filename="R1_current_1.json")
 
     # R1_position_sinus(2, filename="R1_sinus.json")
     # current_threshold_identification(1)
