@@ -4,6 +4,7 @@ import numpy as np
 import scipy.signal as signal
 import placo
 import placo_utils.tf as tf
+from sklearn.linear_model import LinearRegression
 from control import dfsin, ddfsin, fsin, FRAMERATE
 
 
@@ -70,7 +71,7 @@ def alternative_torque_sin(theta):
     g = 9.81
     return m * g * l * np.sin(theta)
 
-def plot_torque_and_current(filename, y_rotation, false_torque="None"):
+def plot_torque_and_current(filename, y_rotation, show_data=True, false_torque="None"):
     """ Plot the estimated torque and the read current """
     # Load the robot
     robot = placo.RobotWrapper('1R_arm/', placo.Flags.ignore_collisions)
@@ -110,57 +111,65 @@ def plot_torque_and_current(filename, y_rotation, false_torque="None"):
         else:
             estimated_torque.append(robot.torques_from_acceleration_with_fixed_frame(np.array([estimated_acceleration[i - 1]]), "base")["R1"])
 
-    fig, ax1 = plt.subplots()
-    ax1.plot(timestamps, position, label="read_position", color="blue")
-    ax1.set_xlabel("time [s]")
-    # ax1.set_ylabel("Position [rad]")
+    if show_data:
+        fig, ax1 = plt.subplots()
+        ax1.plot(timestamps, position, label="read_position", color="blue")
+        ax1.set_xlabel("time [s]")
+        # ax1.set_ylabel("Position [rad]")
 
-    ax2 = ax1.twinx()
-    ax2.plot(timestamps, velocity, label="read_velocity", color="red")
-    # ax2.set_ylabel("Velocity [rad/s]")
+        ax2 = ax1.twinx()
+        ax2.plot(timestamps, velocity, label="read_velocity", color="red")
+        # ax2.set_ylabel("Velocity [rad/s]")
 
-    ax3 = ax1.twinx()
-    ax3.plot(timestamps[1:-1], estimated_acceleration, label="estimated_acceleration", color="green")
-    # ax3.set_ylabel("Acceleration [rad/s^2]")
+        ax3 = ax1.twinx()
+        ax3.plot(timestamps[1:-1], estimated_acceleration, label="estimated_acceleration", color="green")
+        # ax3.set_ylabel("Acceleration [rad/s^2]")
 
-    ax4 = ax1.twinx()
-    ax4.plot(timestamps, current, label="read_current", color="pink")
-    # ax4.set_ylabel("Current [mA]")
+        ax4 = ax1.twinx()
+        ax4.plot(timestamps, current, label="read_current", color="pink")
+        # ax4.set_ylabel("Current [mA]")
 
-    ax5 = ax1.twinx()
-    ax5.plot(timestamps[1:-1], estimated_torque, label="estimated_torque", color="orange")
-    # ax5.set_ylabel("Torque [Nm]")
+        ax5 = ax1.twinx()
+        ax5.plot(timestamps[1:-1], estimated_torque, label="estimated_torque", color="orange")
+        # ax5.set_ylabel("Torque [Nm]")
 
-    ax6 = ax1.twinx()
-    ax6.plot(timestamps, pwm, label="read_pwm", color="purple")
-    # ax6.set_ylabel("PWM [%]")
+        ax6 = ax1.twinx()
+        ax6.plot(timestamps, pwm, label="read_pwm", color="purple")
+        # ax6.set_ylabel("PWM [%]")
 
-    if "goal_current" in data:
-        goal_current = data["goal_current"]
-        axgc = ax1.twinx()
-        axgc.plot(timestamps, goal_current, label="goal_current")
+        if "goal_current" in data:
+            goal_current = data["goal_current"]
+            axgc = ax1.twinx()
+            axgc.plot(timestamps, goal_current, label="goal_current")
 
-    if "goal_pwm" in data:
-        goal_pwm = data["goal_pwm"]
-        axgp = ax1.twinx()
-        axgp.plot(timestamps, goal_pwm, label="goal_pwm")
+        if "goal_pwm" in data:
+            goal_pwm = data["goal_pwm"]
+            axgp = ax1.twinx()
+            axgp.plot(timestamps, goal_pwm, label="goal_pwm")
 
-    fig.legend()
-    plt.title("Data from %s" % filename)
-    plt.show()
+        fig.legend()
+        plt.title("Data from %s" % filename)
+        plt.show()
 
     # Add a gradient to the plot
     gradient_variable = []
     for d in np.diff(position[1:]):
-        gradient_variable.append(d * 1000)
+        gradient_variable.append(d * 1000)    
+    
+    # Fit a linear regression to the data
+    X = np.array(estimated_torque).reshape(-1, 1)
+    y = np.array(current[1:-1]).reshape(-1, 1)
+    reg = LinearRegression(fit_intercept=False).fit(X, y)
+    print(f"Linear regression coefficients: {reg.coef_[0][0]/1000} A/Nm")
 
     plt.scatter(estimated_torque, current[1:-1], label="current", c=gradient_variable, cmap='viridis', s=10)
+    plt.plot(X, reg.predict(X), color='red', linewidth=2)
     plt.ylabel("Current [mA]")
     plt.xlabel("Torque [Nm]")
     plt.legend()
-    plt.title("Current from Torque")
+    plt.title("Current from Torque (linear regression)")
     plt.show()
-
+    
     # Filtering the data to remove the high current peaks
     # def filter_current(mx_diff=30):
     #     filtered_current = []
@@ -191,9 +200,15 @@ if __name__ == '__main__':
 
     plot_torque_and_current("logs/R1_random_pwm_22-14-36.json", np.pi)
     # plot_torque_and_current("logs/R1_random_pwm_22-14-30.json", np.pi)
-    # plot_torque_and_current("logs/R1_random_pwm_22-14-29.json", np.pi)
+    plot_torque_and_current("logs/R1_random_pwm_22-14-29.json", np.pi)
     # plot_torque_and_current("logs/R1_random_pwm_22-14-28.json", np.pi)
-    # plot_torque_and_current("logs/R1_random_pwm_22-14-10.json", np.pi)
+    plot_torque_and_current("logs/R1_random_pwm_22-14-10.json", np.pi)
+
+    ########### ROUGHLY ESTIMATED COEFFICIENT ###########
+    #
+    #                 Ki = 0.48 A/Nm
+    #
+    #####################################################
 
     # plot_torque_and_current("logs/R1_pwm_30.json", np.pi)
     # plot_torque_and_current("logs/R1_pwm_20.json", np.pi)
