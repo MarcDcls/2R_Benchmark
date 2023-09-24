@@ -32,16 +32,22 @@ class Logs:
         probabilities = durations / np.sum(durations)
         return np.random.choice(self.collections, p=probabilities)
 
-    def history_state(self, collection: placo.HistoryCollection, t: float) -> list:
+    def state_entries(self) -> list[str]:
         return [
-            collection.number("read_position", t),
-            # collection.number("read_velocity", t),
+            "read_position",
+            "read_velocity",
         ]
 
-    def history_action(self, collection: placo.HistoryCollection, t: float) -> list:
+    def action_entries(self) -> list[str]:
         return [
-            collection.number("goal_pwm", t),
+            "goal_pwm",
         ]
+
+    def history_state(self, collection: placo.HistoryCollection, t: float) -> list:
+        return [collection.number(entry, t) for entry in self.state_entries()]
+
+    def history_action(self, collection: placo.HistoryCollection, t: float) -> list:
+        return [collection.number(entry, t) for entry in self.action_entries()]
 
     def sample(self, dt: float, length: int) -> list:
         margin = (length * 2) * dt

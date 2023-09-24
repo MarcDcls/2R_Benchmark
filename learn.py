@@ -41,6 +41,8 @@ if __name__ == "__main__":
     x, y = train_logs.sample(dt, length)
     net = MLP(len(x), len(y), device)
     summary(net, input_size=(1, len(x)))
+    state_size = len(train_logs.state_entries())
+    action_size = len(train_logs.action_entries())
 
     plt = LivePlot("Loss", "Epoch", "Loss")
     optimizer = torch.optim.Adam(net.parameters(), lr=lr, weight_decay=1e-5)
@@ -72,12 +74,7 @@ if __name__ == "__main__":
                 loss = compute_loss(net(samples_x), samples_y)
                 validate_loss += loss.item()
 
-                naive_estimation = samples_x[:, -2:-1]
-
-                # positions = samples_x[:, -3:-2]
-                # velocitie = samples_x[:, -2:-1]
-                # new_positions = positions + velocitie * dt
-                # naive_estimation = torch.cat((new_positions, velocitie), dim=1)
+                naive_estimation = samples_x[:, -(state_size+action_size):-action_size]
 
                 loss = compute_loss(naive_estimation, samples_y)
                 naive_loss += loss.item()
