@@ -30,13 +30,12 @@ class Logs:
             [collection.biggestTimestamp() - collection.smallestTimestamp() for collection in self.collections]
         )
         probabilities = durations / np.sum(durations)
-        collection = np.random.choice(self.collections, p=probabilities)
-        return collection
+        return np.random.choice(self.collections, p=probabilities)
 
     def history_state(self, collection: placo.HistoryCollection, t: float) -> list:
         return [
             collection.number("read_position", t),
-            collection.number("read_velocity", t),
+            # collection.number("read_velocity", t),
         ]
 
     def history_action(self, collection: placo.HistoryCollection, t: float) -> list:

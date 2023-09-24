@@ -16,14 +16,18 @@ class LivePlot:
         self.x[name].append(x)
         self.y[name].append(y)
 
-    def show(self):
+    def show(self, block: bool = False):
         plt.clf()
         for key in self.x:
             plt.plot(self.x[key], self.y[key], label=key)
         plt.legend()
+        plt.ylim(0, 0.1)
         plt.xlabel(self.xlabel)
         plt.ylabel(self.ylabel)
         plt.title(self.title)
         plt.grid()
-        plt.pause(0.05)
 
+        if block:
+            plt.show()
+        else:
+            plt.pause(0.05)
