@@ -1,69 +1,70 @@
 import placo
 import numpy as np
 import json
-
-class Logs:
-    def __init__(self, logs: list[str]) -> None:
-        self.collections: list[placo.HistoryCollection] = []
-
-        for log in logs:
-            self.load_log(log)
-
-    def load_log(self, path: str) -> None:
-        with open(path) as f:
-            data = json.load(f)
-
-            collection = placo.HistoryCollection()
-            for k in range(len(data["timestamps"])):
-                t = data["timestamps"][k]
-                collection.push_number("read_position", t, data["read_position"][k])
-                collection.push_number("read_velocity", t, data["read_velocity"][k])
-                collection.push_number("goal_pwm", t, data["goal_pwm"][k])
-
-            self.collections.append(collection)
-
-    def random_collection(self) -> placo.HistoryCollection:
-        # Choose a random collection weighted by its duration
-        durations = np.array(
-            [collection.biggestTimestamp() - collection.smallestTimestamp() for collection in self.collections]
-        )
-        probabilities = durations / np.sum(durations)
-        collection = np.random.choice(self.collections, p=probabilities)
-        return collection
-    
-    def history_state(self, collection: placo.HistoryCollection, t: float) -> list:
-        return [
-            collection.number("read_position", t),
-            collection.number("read_velocity", t),
-        ]
-    
-    def history_action(self, collection: placo.HistoryCollection, t: float) -> list:
-        return [
-            collection.number("goal_pwm", t),
-        ]
-
-    def sample(self, dt: float, length: int) -> list:
-        margin = (length * 2) * dt
-        collection: placo.HistoryCollection = self.random_collection()
-        start_time: float = np.random.uniform(collection.smallestTimestamp() + margin, collection.biggestTimestamp() - margin)
-
-        x: list = []
-        for k in range(length):
-            t: float = start_time + k * dt
-            x += self.history_state(collection, t)
-            x += self.history_action(collection, t)
-
-        y = self.history_state(collection, start_time + length * dt)
-
-        return x, y
+from mlp import MLP
+from torch.nn import functional as F
+import torch
+from torchinfo import summary
+from live_plot import LivePlot
+from learn_logs import Logs
 
 
-log = Logs(
+dt = 0.01  # [s]
+length = 1  # [steps]
+lr = 1e-3  # learning rate
+epochs = 128
+epoch_length = 16
+batch_size = 256
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+train_logs = Logs(
     [
         "logs/R1_random_pwm_22-14-30.json",
         "logs/R1_random_pwm_22-14-36.json",
     ]
 )
+validate_logs = Logs(
+    [
+        "logs/R1_random_pwm_22-14-28.json",
+        "logs/R1_random_pwm_22-14-10.json",
+        "logs/R1_random_pwm_22-14-29.json",
+    ]
+)
 
-x, y = log.sample(0.01, 5)
-print(x, y)
+# Creating the network
+x, y = train_logs.sample(dt, length)
+net = MLP(len(x), len(y), device)
+summary(net, input_size=(1, len(x)))
+
+plt = LivePlot("Loss", "Epoch", "Loss")
+optimizer = torch.optim.Adam(net.parameters(), lr=lr, weight_decay=1e-5)
+
+for epoch in range(epochs):
+    print(f"* Epoch {epoch}")
+    train_loss = 0
+    for step in range(epoch_length):
+        samples_x, samples_y = train_logs.sample_batch(dt, length, batch_size, device)
+
+        loss = F.smooth_l1_loss(net(samples_x), samples_y, reduction="mean")
+        loss.backward()
+        train_loss += loss.item()
+        optimizer.step()
+        optimizer.zero_grad()
+
+    train_loss /= epoch_length
+    plt.add_value("train_loss", epoch, train_loss)
+
+    validate_loss = 0
+    for step in range(epoch_length):
+        samples_x, samples_y = validate_logs.sample_batch(dt, length, batch_size, device)
+
+        loss = F.smooth_l1_loss(net(samples_x), samples_y, reduction="mean")
+        validate_loss += loss.item()
+
+    validate_loss /= epoch_length
+    plt.add_value("validate_loss", epoch, validate_loss)
+    plt.show()
+
+    print(f"Train loss: {train_loss}, validate loss: {validate_loss}")
+
+net.save("model.pt")
