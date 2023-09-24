@@ -23,7 +23,9 @@ class Logs:
                 for entry in self.state_entries:
                     collection.push_number(entry, t, data[entry][k])
                 for entry in self.action_entries:
-                    collection.push_number(entry, t, data[entry][k])
+                    # XXX: This is a hack to make the action values between 0 and 1,
+                    #      which is the range of the PWM values. Should be fixed for more generality
+                    collection.push_number(entry, t, data[entry][k]/100.)
 
             self.collections.append(collection)
 
