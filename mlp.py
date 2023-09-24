@@ -9,10 +9,8 @@ class MLP(th.nn.Module):
         layers = [
             th.nn.Linear(input_dimension, 256),
             th.nn.ReLU(),
-            # th.nn.Dropout(0.1),
             th.nn.Linear(256, 256),
             th.nn.ReLU(),
-            # th.nn.Dropout(0.1),
             th.nn.Linear(256, output_dimension),
         ]
 
