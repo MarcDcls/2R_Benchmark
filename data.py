@@ -71,6 +71,23 @@ def alternative_torque_sin(theta):
     g = 9.81
     return m * g * l * np.sin(theta)
 
+def plot_estimated_velocity(filename):
+    """ Plot the read and estimated_velocities """
+    with open(filename, 'r') as f:
+            data = json.load(f)
+
+    timestamps = data["timestamps"]
+    position = data["read_position"]
+    velocity = data["read_velocity"]
+
+    estimated_velocity = derivative(position, timestamps)
+    plt.plot(timestamps[1:-1], estimated_velocity, label="estimated_velocity")
+    plt.plot(timestamps, velocity, label="read_velocity")
+    plt.xlabel("time [s]")
+    plt.ylabel("Velocity [rad/s]")
+    plt.legend()
+    plt.show()
+
 def plot_torque_and_current(filename, y_rotation, show_data=True, false_torque="None"):
     """ Plot the estimated torque and the read current """
     # Load the robot
@@ -96,8 +113,6 @@ def plot_torque_and_current(filename, y_rotation, show_data=True, false_torque="
     current = data["read_current"]
     pwm = data["read_pwm"]
 
-    estimated_acceleration = derivative(velocity, timestamps)
-
     estimated_torque = []
     for i in range(1, len(timestamps) - 1):
         
@@ -109,7 +124,7 @@ def plot_torque_and_current(filename, y_rotation, show_data=True, false_torque="
         elif false_torque == "sin":
             estimated_torque.append(alternative_torque_sin(position[i]))
         else:
-            estimated_torque.append(robot.torques_from_acceleration_with_fixed_frame(np.array([estimated_acceleration[i - 1]]), "base")["R1"])
+            estimated_torque.append(robot.torques_from_acceleration_with_fixed_frame_dict(np.array([estimated_acceleration[i - 1]]), "base")["R1"])
 
     if show_data:
         fig, ax1 = plt.subplots()
@@ -192,17 +207,42 @@ def plot_torque_and_current(filename, y_rotation, show_data=True, false_torque="
     # filter_current(0.5)
     # filter_current(0.1)
 
+def plot_current_and_velocity(filename):
+    """ Plot the read current and velocity """
+    with open(filename, 'r') as f:
+            data = json.load(f)
+
+    timestamps = data["timestamps"]
+    velocity = data["read_velocity"]
+    current = data["read_current"]
+
+    fig, ax1 = plt.subplots()
+    ax1.plot(timestamps, current, label="read_current", color="red")
+    ax1.set_ylabel("Current [mA]")
+    ax1.set_xlabel("Time [s]")
+    ax2 = ax1.twinx()
+    ax2.plot(timestamps, velocity, label="read_velocity", color="blue")
+    ax2.set_ylabel("Velocity [rad/s]")
+    fig.legend()
+    plt.title("Read current and velocity")
+    plt.show()
 
 
 if __name__ == '__main__':
     
-    # plot_ts("logs/R1_random_pwm.json")
+    # plot_ts("logs/constant_pwm_1k.json")
 
-    plot_torque_and_current("logs/R1_random_pwm_22-14-36.json", np.pi)
+    # plot_current_and_velocity("logs/constant_velocity.json")
+    plot_current_and_velocity("logs/constant_pwm_1k.json")
+    # plot_current_and_velocity("logs/constant_pwm_300.json")
+
+    # plot_estimated_velocity("logs/R1_random_pwm_22-14-10.json")
+
+    # plot_torque_and_current("logs/R1_random_pwm_22-14-10.json", np.pi)
+    # plot_torque_and_current("logs/R1_random_pwm_22-14-36.json", np.pi)
     # plot_torque_and_current("logs/R1_random_pwm_22-14-30.json", np.pi)
-    plot_torque_and_current("logs/R1_random_pwm_22-14-29.json", np.pi)
+    # plot_torque_and_current("logs/R1_random_pwm_22-14-29.json", np.pi)
     # plot_torque_and_current("logs/R1_random_pwm_22-14-28.json", np.pi)
-    plot_torque_and_current("logs/R1_random_pwm_22-14-10.json", np.pi)
 
     ########### ROUGHLY ESTIMATED COEFFICIENT ###########
     #

@@ -309,6 +309,103 @@ def R1_random_pwm(id, duration, pwm_duration, pwm_max, filename="None"):
             json.dump(data, f)
         print("Data saved in %s" % filename)
 
+def constant_pwm(id, pwms, duration=3, filename="None"):
+    """ Apply a constant pwm to a motor """
+    # PWM Control Mode
+    disable_torque()
+    set_control_mode(PWM_CONTROL_MODE)
+    enable_torque()
+
+    # Trajectory
+    read_velocity = []
+    read_current = []
+    goal_pwm = []
+    timeline = []
+    t0 = time.time()
+    t_sum = -1/FRAMERATE
+    pwm_index = 0
+    while t_sum < duration * len(pwms):
+        t = time.time() - t0
+        if t < 1/FRAMERATE:
+            continue
+        
+        data = read_data(id, position=False, velocity=True, current=True, pwm=False)
+        read_velocity.append(data["velocity"])
+        read_current.append(data["current"])
+
+        if pwm_index * duration < t_sum:
+            pwm_index += 1
+            set_pwm(id, pwms[pwm_index - 1])
+
+        t_sum += t
+        goal_pwm.append(pwms[pwm_index - 1])
+        timeline.append(t_sum)
+        t0 += t
+
+    # Freeing the motor
+    disable_torque()
+
+    # Saving data
+    if filename != "None":
+        data = {
+            "timestamps": timeline,
+            "read_velocity": read_velocity,
+            "read_current": read_current,
+            "goal_pwm": goal_pwm
+        }
+        with open(filename, 'w') as f:
+            json.dump(data, f)
+        print("Data saved in %s" % filename)
+
+def constant_velocity(id, velocities, duration=3, use_rpm=False, filename="None"):
+    """ Apply a constant velocity to a motor """
+    # Velocity Control Mode
+    disable_torque()
+    set_control_mode(VELOCITY_CONTROL_MODE)
+    enable_torque()
+
+    # Trajectory
+    read_current = []
+    read_velocity = []
+    goal_velocity = []
+    timeline = []
+    t0 = time.time()
+    t_sum = -1/FRAMERATE
+    velocity_index = 0
+    while t_sum < duration * len(velocities):
+        t = time.time() - t0
+        if t < 1/FRAMERATE:
+            continue
+        
+        data = read_data(id, position=False, velocity=True, current=True, pwm=False)
+        read_velocity.append(data["velocity"])
+        read_current.append(data["current"])
+
+        if velocity_index * duration < t_sum:
+            velocity_index += 1
+            set_velocity(id, velocities[velocity_index - 1], use_rpm=use_rpm)
+
+        t_sum += t
+        goal_velocity.append(velocities[velocity_index - 1])
+        timeline.append(t_sum)
+        t0 += t
+
+    # Freeing the motor
+    disable_torque()
+
+    # Saving data
+    if filename != "None":
+        data = {
+            "timestamps": timeline,
+            "read_velocity": read_velocity,
+            "read_current": read_current,
+            "goal_velocity": goal_velocity
+        }
+        with open(filename, 'w') as f:
+            json.dump(data, f)
+        print("Data saved in %s" % filename)
+
+
 if __name__ == '__main__':
     # Parsing arguments with long and short options
     parser = argparse.ArgumentParser()
@@ -325,11 +422,13 @@ if __name__ == '__main__':
     check_latency()
 
     print("Motors initialization done!")
-    time.sleep(1)
+    time.sleep(.2)
 
-    # Naming the file after the time of the day
-    name = time.strftime("%d-%H-%M")
-    R1_random_pwm(2, 300, .4, 100, filename=f"logs/R1_random_pwm_{name}.json")
+    constant_velocity(1, [0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2], filename="logs/constant_velocity.json")
+    # constant_pwm(1, [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100], filename="logs/constant_pwm.json")    
+
+    # name = time.strftime("%d-%H-%M")
+    # R1_random_pwm(2, 300, .4, 100, filename=f"logs/R1_random_pwm_{name}.json")
 
     # R1_pwm_sinus(2, 30, 2, duration=20, filename="R1_pwm_30.json")
     # time.sleep(1)

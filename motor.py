@@ -5,7 +5,7 @@ BAUDRATE         = 3000000
 PROTOCOL_VERSION = 2.0
 DEVICENAME       = '/dev/ttyUSB0'
 
-DXL_IDS = [2]
+DXL_IDS = [1]
 
 portHandler = PortHandler(DEVICENAME)
 packetHandler = PacketHandler(PROTOCOL_VERSION)
@@ -17,14 +17,15 @@ ADDR_TORQUE_ENABLE         = 64
 ADDR_RETURN_STATUS         = 68
 ADDR_GOAL_PWM              = 100
 ADDR_GOAL_CURRENT          = 102
+ADDR_GOAL_VELOCITY         = 104
 ADDR_GOAL_POSITION         = 116
 ADDR_PRESENT_PWM           = 124
 ADDR_PRESENT_CURRENT       = 126
-ADDR_PRESENT_POSITION      = 132
 ADDR_PRESENT_VELOCITY      = 128
-ADDR_PRESENT_ACCERLERATION = 126
+ADDR_PRESENT_POSITION      = 132
 
 CURRENT_CONTROL_MODE                = 0
+VELOCITY_CONTROL_MODE               = 1
 POSITION_CONTROL_MODE               = 3
 CURRENT_BASED_POSITION_CONTROL_MODE = 5
 PWM_CONTROL_MODE                    = 16
@@ -42,7 +43,7 @@ DXL_MAXIMUM_POSITION_VALUE = 4095
 
     
 def init_connection():
-    """Initialize the connection with the motors"""
+    """ Initialize the connection with the motors """
     print("Initializing connection...")
 
     # Open port
@@ -61,12 +62,12 @@ def init_connection():
     disable_torque()
 
 def close_connection():
-    """Close the connection with the motors"""
+    """ Close the connection with the motors """
     portHandler.closePort()
     print("Connection closed")
     
 def enable_torque(ids=DXL_IDS, write_only=True):
-    """Enable the torque of the motors"""
+    """ Enable the torque of the motors """
     for id in ids:
         if write_only:
             packetHandler.write1ByteTxOnly(portHandler, id, ADDR_TORQUE_ENABLE, 1)
@@ -80,7 +81,7 @@ def enable_torque(ids=DXL_IDS, write_only=True):
                 print(f"Motor with ID {id} has been successfully connected")
 
 def disable_torque(ids=DXL_IDS, write_only=True):
-    """Disable the torque of the motors"""
+    """ Disable the torque of the motors """
     for id in ids:
         if write_only:
             packetHandler.write1ByteTxOnly(portHandler, id, ADDR_TORQUE_ENABLE, 0)
@@ -94,7 +95,7 @@ def disable_torque(ids=DXL_IDS, write_only=True):
                 print(f"Motor with ID {id} has been successfully disconnected")
 
 def set_control_mode(mode, ids=DXL_IDS, write_only=True):
-    """Set the control mode of the motors"""
+    """ Set the control mode of the motors """
     print("Setting control mode...")
     for id in ids:
         if write_only:
@@ -108,7 +109,7 @@ def set_control_mode(mode, ids=DXL_IDS, write_only=True):
     print("Control mode set!")
 
 def set_return_delay_time(delay, ids=DXL_IDS, write_only=True):
-    """Set the return delay time of the motors"""
+    """ Set the return delay time of the motors """
     print("Setting return delay time...")
     for id in ids:
         if write_only:
@@ -122,7 +123,7 @@ def set_return_delay_time(delay, ids=DXL_IDS, write_only=True):
     print("Return delay time set!")
 
 def set_moving_threshold(threshold, ids=DXL_IDS, write_only=True):
-    """Set the moving threshold of the motors"""
+    """ Set the moving threshold of the motors """
     print("Setting moving threshold...")
     for id in ids:
         if write_only:
@@ -136,7 +137,7 @@ def set_moving_threshold(threshold, ids=DXL_IDS, write_only=True):
     print("Moving threshold set!")
 
 def set_return_status(status, ids=DXL_IDS, write_only=True):
-    """Set the return status of the motors"""
+    """ Set the return status of the motors """
     print("Setting return status level...")
     for id in ids:
         if write_only:
@@ -150,7 +151,7 @@ def set_return_status(status, ids=DXL_IDS, write_only=True):
     print("Return status level set!")
 
 def set_position(id, position, write_only=True):
-    """Set the position (rad) of the motor"""
+    """ Set the position (rad) of the motor """
     # Convert degree to index
     index = round(position * (DXL_MAXIMUM_POSITION_VALUE+1) / (2*np.pi)) + DXL_ZERO_POSITION_VALUE
     if index > DXL_MAXIMUM_POSITION_VALUE:
@@ -174,7 +175,7 @@ def set_position(id, position, write_only=True):
         return True
 
 def get_position(id):
-    """Get the position (rad) of the motor"""
+    """ Get the position (rad) of the motor """
     dxl_present_position, dxl_comm_result, dxl_error = packetHandler.read4ByteTxRx(
         portHandler, id, ADDR_PRESENT_POSITION)
     if dxl_comm_result != COMM_SUCCESS:
@@ -186,8 +187,26 @@ def get_position(id):
         position = dxl_present_position * (2*np.pi) / (DXL_MAXIMUM_POSITION_VALUE+1) - np.pi
         return position
     
+def set_velocity(id, velocity, use_rpm=False, write_only=True):
+    """ Set the velocity (rad/s) of the motor """
+    # Convert rad/s or rpm to index
+    index = unsign(round(velocity / 0.229) if use_rpm else round(velocity * 60 / (2*np.pi) / 0.229), 4)
+
+    # Write goal position
+    if write_only:
+        packetHandler.write4ByteTxOnly(portHandler, id, ADDR_GOAL_VELOCITY, index)
+    else:
+        dxl_comm_result, dxl_error = packetHandler.write4ByteTxRx(portHandler, id, ADDR_GOAL_VELOCITY, index)
+        if dxl_comm_result != COMM_SUCCESS:
+            print("%s" % packetHandler.getTxRxResult(dxl_comm_result))
+            return False
+        elif dxl_error != 0:
+            print("%s" % packetHandler.getRxPacketError(dxl_error))
+            return False
+        return True
+    
 def get_velocity(id, use_rpm=False):
-    """Get the velocity (rad/s) of the motor"""
+    """ Get the velocity (rad/s) of the motor """
     dxl_present_velocity, dxl_comm_result, dxl_error = packetHandler.read4ByteTxRx(
         portHandler, id, ADDR_PRESENT_VELOCITY)
     if dxl_comm_result != COMM_SUCCESS:
@@ -200,7 +219,7 @@ def get_velocity(id, use_rpm=False):
         return velocity
 
 def set_current(id, current, write_only=True):
-    """Set the current (mA) of the motor"""
+    """ Set the current (mA) of the motor """
     # Convert mA to index
     index = unsign(round(current / 3.36), 2)
 
@@ -218,7 +237,7 @@ def set_current(id, current, write_only=True):
         return True
 
 def get_current(id):
-    """Get the current (mA) of the motor"""
+    """ Get the current (mA) of the motor """
     index, dxl_comm_result, dxl_error = packetHandler.read2ByteTxRx(portHandler, id, ADDR_PRESENT_CURRENT)
     if dxl_comm_result != COMM_SUCCESS:
         print("%s" % packetHandler.getTxRxResult(dxl_comm_result))
@@ -229,7 +248,7 @@ def get_current(id):
         return current
     
 def set_pwm(id, pwm, write_only=True):
-    """Set the pwm (% of Vmax) of the motor"""
+    """ Set the pwm (% of Vmax) of the motor """
     # Convert pwm to index
     index = unsign(round(pwm * 8.85), 2)
 
@@ -247,7 +266,7 @@ def set_pwm(id, pwm, write_only=True):
         return True
 
 def get_pwm(id):
-    """Get the pwm (% of Vmax) of the motor"""
+    """ Get the pwm (% of Vmax) of the motor """
     index, dxl_comm_result, dxl_error = packetHandler.read2ByteTxRx(portHandler, id, ADDR_PRESENT_PWM)
     if dxl_comm_result != COMM_SUCCESS:
         print("%s" % packetHandler.getTxRxResult(dxl_comm_result))
@@ -258,22 +277,22 @@ def get_pwm(id):
         return pwm
     
 def unsign(value, nb_bytes):
-    """Convert a signed value to an unsigned value"""
+    """ Convert a signed value to an unsigned value """
     return value + 2**(8*nb_bytes) if value < 0 else value
 
 def sign(value, nb_bytes):
-    """Convert an unsigned value to a signed value"""
+    """ Convert an unsigned value to a signed value """
     return value - 2**(8*nb_bytes) if value >= 2**(8*nb_bytes-1) else value
 
 def measure_getting_time(id=DXL_IDS[0], n=10000):
-    """Measure the time of getting the position of the motor"""
+    """ Measure the time of getting the position of the motor """
     t0 = time.time()
     for i in range(n):
         get_position(id)
     return (time.time() - t0) / n
 
 def measure_setting_write_only_time(id=DXL_IDS[0], n=10000):
-    """Measure the time of setting the position of the motor (write only)"""
+    """ Measure the time of setting the position of the motor (write only) """
     pos = get_position(id)
     t0 = time.time()
     for i in range(n):
@@ -281,7 +300,7 @@ def measure_setting_write_only_time(id=DXL_IDS[0], n=10000):
     return (time.time() - t0) / n
     
 def measure_setting_read_write_time(id=DXL_IDS[0], n=10000):
-    """Measure the time of setting the position of the motor (read/write)"""
+    """ Measure the time of setting the position of the motor (read/write) """
     pos = get_position(id)
     t0 = time.time()
     error_count = 0
@@ -291,7 +310,7 @@ def measure_setting_read_write_time(id=DXL_IDS[0], n=10000):
     return (time.time() - t0) / n, error_count
 
 def measure_timings():
-    """Measure the timings of set and get operations"""
+    """ Measure the timings of set and get operations """
     print(f"Getting time: {measure_getting_time()} s")
     print(f"Setting time (write only): {measure_setting_write_only_time()} s")
     measured_time, error_count = measure_setting_read_write_time()
@@ -299,7 +318,7 @@ def measure_timings():
     print(f"Error count: {error_count}")
 
 def check_latency():
-    """Check the latency of the connection"""
+    """ Check the latency of the connection """
     print("Checking latency...")
     disable_torque()
     set_control_mode(POSITION_CONTROL_MODE)
