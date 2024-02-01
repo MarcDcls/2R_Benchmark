@@ -5,7 +5,7 @@ BAUDRATE         = 3000000
 PROTOCOL_VERSION = 2.0
 DEVICENAME       = '/dev/ttyUSB0'
 
-DXL_IDS = [1]
+DXL_IDS = [1, 2]
 
 portHandler = PortHandler(DEVICENAME)
 packetHandler = PacketHandler(PROTOCOL_VERSION)
@@ -45,6 +45,10 @@ DXL_MAXIMUM_POSITION_VALUE = 4095
 def init_connection():
     """ Initialize the connection with the motors """
     print("Initializing connection...")
+
+    if len(DXL_IDS) == 0:
+        print("No motors to connect ! Please add entries to the DXL_IDS list in motor.py")
+        exit()
 
     # Open port
     if portHandler.openPort():
