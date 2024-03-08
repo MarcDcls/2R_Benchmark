@@ -39,21 +39,18 @@ def plot_ts(filename):
     plt.axhline(1/FRAMERATE, color="red", label="goal_framerate")
     plt.show()
 
-def plot_position():
-    """ Plot the read position and the goal position, velocity and acceleration """
-    with open("R1_sinus.json", 'r') as f:
+def plot_sinus(filename="logs_R1/R1_sinus_0w.json"):
+    """ Plot the read and goal position and velocity """
+    with open(filename, 'r') as f:
         data = json.load(f)
 
-    positions = data["read_positions"]
-    plt.plot(data["timestamps"], positions, label="positions")
+    plt.plot(data["timestamps"], data["read_position"], label="read position")
+    plt.plot(data["timestamps"], data["goal_position"], label="goal position")
+    plt.legend()
+    plt.show()
 
-    # Goal position : f(t) = np.pi/2 + np.pi/4 * (np.sin(t * np.pi/2 + np.pi/2) - 1)
-    # Goal velocity : df(t) = np.pi**2/8 * np.cos(t * np.pi/2 + np.pi/2)
-    # Goal acceleration : ddf(t) = - np.pi**3/16 * np.sin(t * np.pi/2 + np.pi/2)
-    plt.plot(data["timestamps"], fsin(np.array(data["timestamps"])), label="goal_positions")
-    plt.plot(data["timestamps"], dfsin(np.array(data["timestamps"])), label="goal_velocities")
-    plt.plot(data["timestamps"], ddfsin(np.array(data["timestamps"])), label="goal_accelerations")
-
+    plt.plot(data["timestamps"], data["read_velocity"], label="read velocity")  
+    plt.plot(data["timestamps"], data["goal_velocity"], label="goal velocity")
     plt.legend()
     plt.show()
 
@@ -88,10 +85,13 @@ def plot_estimated_velocity(filename):
     plt.legend()
     plt.show()
 
-def plot_torque_and_current(filename, y_rotation, show_data=True, false_torque="None"):
+def plot_torque_and_current(filename, y_rotation, show_data=True, false_torque="None", configuration="default"):
     """ Plot the estimated torque and the read current """
     # Load the robot
-    robot = placo.RobotWrapper('1R_arm/', placo.Flags.ignore_collisions)
+    if configuration == "default":
+        robot = placo.RobotWrapper("models/1R_arm/", placo.Flags.ignore_collisions)
+    else:
+        robot = placo.RobotWrapper("models/1R_arm_" + configuration, placo.Flags.ignore_collisions)
     robot.set_joint("R1", 1e-5)
     robot.update_kinematics()
     solver = robot.make_solver()
@@ -228,9 +228,12 @@ def plot_current_and_velocity(filename):
     plt.title("Read current and velocity")
     plt.show()
 
-def plot_velocity_vs_torque(filename, y_rotation):
+def plot_velocity_vs_torque(filename, y_rotation, configuration="default"):
     # Load the robot
-    robot = placo.RobotWrapper('1R_arm/', placo.Flags.ignore_collisions)
+    if configuration == "default":
+        robot = placo.RobotWrapper("models/1R_arm/", placo.Flags.ignore_collisions)
+    else:
+        robot = placo.RobotWrapper("models/1R_arm_" + configuration, placo.Flags.ignore_collisions)
     robot.set_joint("R1", 1e-5)
     robot.update_kinematics()
     solver = robot.make_solver()
@@ -268,7 +271,7 @@ def plot_velocity_vs_torque(filename, y_rotation):
 
 if __name__ == '__main__':
     
-    plot_velocity_vs_torque("logs/R1_random_pwm_16-15-03.json", np.pi)
+    # plot_velocity_vs_torque("logs/R1_random_pwm_16-15-03.json", np.pi)
 
     # plot_ts("logs/constant_pwm_1k.json")
 
@@ -302,4 +305,10 @@ if __name__ == '__main__':
     # plot_torque_and_current("logs/R1_current_1.json", np.pi)
 
     # plot_torque_and_current("logs/R1_sinus.json", np.pi/2)
-    # plot_position()
+
+    # for i in {0, 8}:
+    #     plot_sinus(f"logs_1R/R1_sinus_{i}w.json")
+
+    plot_sinus(f"logs_1R/R1_var_sinus_0w.json")
+    plot_sinus(f"logs_1R/R1_var_sinus_2w.json")
+    plot_sinus(f"logs_1R/R1_var_sinus_4w.json")

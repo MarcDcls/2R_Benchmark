@@ -1,5 +1,6 @@
 import time
 import numpy as np
+import matplotlib.pyplot as plt
 import json
 from motor import *
 import argparse
@@ -8,14 +9,26 @@ FRAMERATE = 300 # Hz
 # DXL_IDS = [2]
 
 # Sinusoidal trajectories
+def alt_fsin(t):
+    return 1*np.pi/3 * np.sin(t**2)
+
+# Sinusoidal trajectories
+def alt_dfsin(t):
+    return 2*t*np.pi/3 * np.cos(t**2)
+
+# Sinusoidal trajectories
+def alt_ddfsin(t):
+    return 2*np.pi/3 * np.cos(t**2) - 4*t**2*np.pi/3 * np.sin(t**2)
+
+# Sinusoidal trajectories
 def fsin(t):
-    return np.pi/2 + np.pi/4 * (np.sin(t * np.pi/2 + np.pi/2) - 1)
+    return 1*np.pi/3 * np.sin(t * np.pi/2)
 
 def dfsin(t):
-    return np.pi**2/8 * np.cos(t * np.pi/2 + np.pi/2)
+    return np.pi**2/6 * np.cos(t * np.pi/2)
 
 def ddfsin(t):
-    return - np.pi**3/16 * np.sin(t * np.pi/2 + np.pi/2)
+    return - np.pi**3/12 * np.sin(t * np.pi/2)
     
 def read_data(id, position=True, velocity=True, current=True, pwm=True):
     """ Read data from the motors """
@@ -34,7 +47,7 @@ def read_data(id, position=True, velocity=True, current=True, pwm=True):
             data["pwm"] = get_pwm(id)
     return data
 
-def R1_position_sinus(id, duration=8, filename="None"):
+def R1_position_sinus(id, duration=8, use_alt=False, filename="None"):
     """ Sinusoidal trajectory on a R1 arm using position control with read position and read current plots """
     # Position Control Mode
     disable_torque()
@@ -42,14 +55,13 @@ def R1_position_sinus(id, duration=8, filename="None"):
     enable_torque()
 
     # Reaching initial position
-    set_position(id, np.pi/2)
+    set_position(id, 0)
     time.sleep(1)
 
     # Trajectory
     read_position = []
     read_velocity = []
     read_current = []
-    read_pwm = []
     timeline = []
     t0 = time.time()
     t_sum = - 1/FRAMERATE
@@ -58,30 +70,37 @@ def R1_position_sinus(id, duration=8, filename="None"):
         if t < 1/FRAMERATE:
             continue
 
-        data = read_data(id, position=True, velocity=True, current=True, pwm=True)
+        data = read_data(id, position=True, velocity=True, current=True, pwm=False)
         read_position.append(data["position"])
         read_velocity.append(data["velocity"])
         read_current.append(data["current"])
-        read_pwm.append(data["pwm"])
 
         t_sum += t
-        set_position(id, fsin(t_sum))
+        if use_alt:
+            set_position(id, alt_fsin(t_sum))
+        else:
+            set_position(id, fsin(t_sum))
         timeline.append(t_sum)
         t0 += t
 
     # Freeing the motor
-    set_position(2, np.pi/2, write_only=True)
+    set_position(2, 0, write_only=True)
     time.sleep(1)
     disable_torque()
 
     # Reference values
     goal_position = []
-    goal_velocitie = []
+    goal_velocity = []
     goal_acceleration = []
     for t in timeline:
-        goal_position.append(fsin(t))
-        goal_velocitie.append(dfsin(t))
-        goal_acceleration.append(ddfsin(t))
+        if use_alt:
+            goal_position.append(alt_fsin(t))
+            goal_velocity.append(alt_dfsin(t))
+            goal_acceleration.append(alt_ddfsin(t))
+        else:
+            goal_position.append(fsin(t))
+            goal_velocity.append(dfsin(t))
+            goal_acceleration.append(ddfsin(t))
 
     # Saving data
     if filename != "None":
@@ -90,9 +109,8 @@ def R1_position_sinus(id, duration=8, filename="None"):
             "read_position": read_position,
             "read_velocity": read_velocity,
             "read_current": read_current,
-            "read_pwm": read_pwm,
             "goal_position": goal_position,
-            "goal_velocitie": goal_velocitie,
+            "goal_velocity": goal_velocity,
             "goal_acceleration": goal_acceleration
         }
         with open(filename, 'w') as f:
@@ -422,11 +440,42 @@ if __name__ == '__main__':
     print("Motors initialization done!")
     time.sleep(.2)
 
+
+    # Plotting functions
+    # x = np.linspace(0, 6, 100)
+    # y = fsin(x)
+    # dy = dfsin(x)
+    # ddy = ddfsin(x)
+    
+    # plt.plot(x, y, label="y")
+    # plt.plot(x, dy, label="dy")
+    # plt.plot(x, ddy, label="ddy")
+    # plt.legend()
+    # plt.show()
+
+    # x = np.linspace(0, 10, 1000)
+    # y = alt_fsin(x)
+    # dy = alt_dfsin(x)
+    # ddy = alt_ddfsin(x)
+
+    # last = y[0]
+    # for i, v in enumerate(y):
+    #     if v * last < 0:
+    #         print(x[i])
+    #     last = v
+
+    # plt.plot(x, y, label="y")
+    # plt.plot(x, dy, label="dy")
+    # plt.plot(x, ddy, label="ddy")
+    # plt.legend()
+    # plt.show()
+
+
     # constant_velocity(1, [0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2], filename="logs/constant_velocity.json")
     # constant_pwm(1, [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100], filename="logs/constant_pwm.json")    
 
-    name = time.strftime("%d-%H-%M")
-    R1_random_pwm(2, 300, .4, 100, filename=f"logs/R1_random_pwm_{name}.json")
+    # name = time.strftime("%d-%H-%M")
+    # R1_random_pwm(2, 300, .4, 100, filename=f"logs/R1_random_pwm_{name}.json")
 
     # R1_pwm_sinus(2, 30, 2, duration=20, filename="R1_pwm_30.json")
     # time.sleep(1)
@@ -443,7 +492,12 @@ if __name__ == '__main__':
     # time.sleep(1)
     # R1_current_sinus(2, 200, 1, duration=20, filename="R1_current_1.json")
 
-    # R1_position_sinus(2, filename="R1_sinus.json")
+
+    nb_weight = 4
+    R1_position_sinus(2, 6, use_alt=True, filename="R1_var_sinus_" + str(nb_weight) + "w.json")
+    # R1_position_sinus(2, 20, filename="R1_sinus_" + str(nb_weight) + "w.json")
+    
+    
     # current_threshold_identification(1)
 
     # Current Control Mode

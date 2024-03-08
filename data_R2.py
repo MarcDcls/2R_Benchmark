@@ -101,7 +101,7 @@ def process_log(src, dst, orientation=np.pi):
 
     # Load the robot
     print(f"Torque computation...")
-    robot = placo.RobotWrapper('2R_arm/', placo.Flags.ignore_collisions)
+    robot = placo.RobotWrapper('models/2R_arm/', placo.Flags.ignore_collisions)
     robot.set_joint("R1", 1e-5)
     robot.set_joint("R2", 1e-5)
     robot.update_kinematics()

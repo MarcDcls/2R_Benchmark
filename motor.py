@@ -5,7 +5,8 @@ BAUDRATE         = 3000000
 PROTOCOL_VERSION = 2.0
 DEVICENAME       = '/dev/ttyUSB0'
 
-DXL_IDS = [1, 2]
+DXL_IDS = [2] # 1R configuration
+# DXL_IDS = [1, 2] # 2R configuration
 
 portHandler = PortHandler(DEVICENAME)
 packetHandler = PacketHandler(PROTOCOL_VERSION)
